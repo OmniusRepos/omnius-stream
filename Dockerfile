@@ -16,16 +16,27 @@ COPY . .
 RUN mkdir -p .duxt/packages/duxt_ui && cp -r /root/.pub-cache/hosted/pub.dev/duxt_ui-*/lib/* .duxt/packages/duxt_ui/
 RUN tailwindcss --input web/styles.tw.css --output web/styles.css --minify
 RUN ~/.pub-cache/bin/jaspr build
+RUN dart compile exe server/main.dart -o /app/api-server
 
 # Runtime stage
 FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y ca-certificates libsqlite3-0 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ca-certificates libsqlite3-0 caddy supervisor && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
+# Jaspr SSR server binary + web assets
 COPY --from=build /app/build/jaspr/app /app/app
 COPY --from=build /app/build/jaspr/web /app/web
+# API server binary
+COPY --from=build /app/api-server /app/api-server
+
 RUN mkdir -p /app/data
 
-ENV PORT=8080 DATA_DIR=/app/data
+# Caddyfile: route /api to API server, everything else to Jaspr SSR
+RUN echo '{\n\tadmin off\n}\n:8080 {\n\thandle /api/* {\n\t\treverse_proxy localhost:3001\n\t}\n\thandle {\n\t\treverse_proxy localhost:3002\n\t}\n}' > /etc/caddy/Caddyfile
+
+# Supervisord: run all three processes
+RUN echo '[supervisord]\nnodaemon=true\n\n[program:caddy]\ncommand=caddy run --config /etc/caddy/Caddyfile\nautorestart=true\n\n[program:jaspr]\ncommand=/app/app\ndirectory=/app\nenvironment=PORT="3002"\nautorestart=true\n\n[program:api]\ncommand=/app/api-server\ndirectory=/app\nenvironment=PORT="3001",DATA_DIR="/app/data"\nautorestart=true' > /etc/supervisor/conf.d/app.conf
+
+ENV DATA_DIR=/app/data
 EXPOSE 8080
-CMD ["./app"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
