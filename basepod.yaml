@@ -1,4 +1,5 @@
-name: omnius.stream
+name: omnius-stream
+type: container
 server: bp.common.al
 port: 8080
 build:
