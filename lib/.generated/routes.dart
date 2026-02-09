@@ -10,8 +10,10 @@ import '../setup/pages/index.dart' as page_setuppage;
 import '../refund/pages/index.dart' as page_refundpage;
 import '../privacy/pages/index.dart' as page_privacypage;
 import '../success/pages/index.dart' as page_successpage;
+import '../compare/pages/index.dart' as page_comparepage;
 import '../pricing/pages/index.dart' as page_pricingpage;
 import '../features/pages/index.dart' as page_featurespage;
+import '../technology/pages/index.dart' as page_technologypage;
 import '../auth/pages/login.dart' as page_loginpage;
 import '../auth/pages/register.dart' as page_registerpage;
 
@@ -60,6 +62,12 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
+    path: '/compare',
+    builder: (context, state) {
+      return const page_comparepage.ComparePage();
+    },
+  ),
+  Route(
     path: '/pricing',
     builder: (context, state) {
       return const page_pricingpage.PricingPage();
@@ -69,6 +77,12 @@ final generatedRoutes = <Route>[
     path: '/features',
     builder: (context, state) {
       return const page_featurespage.FeaturesPage();
+    },
+  ),
+  Route(
+    path: '/technology',
+    builder: (context, state) {
+      return const page_technologypage.TechnologyPage();
     },
   ),
   Route(

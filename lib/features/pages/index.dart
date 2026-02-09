@@ -22,7 +22,7 @@ class FeaturesPage extends StatelessComponent {
       'icon': '\u{25b6}\u{fe0f}',
       'title': 'In-App Player',
       'desc':
-          'ExoPlayer with HLS, DASH, and torrent streaming. Subtitles, quality selection, and resume playback built in.',
+          'ExoPlayer with HLS, DASH, and adaptive streaming. Subtitles, quality selection, and resume playback built in.',
     },
     {
       'icon': '\u{1f30d}',
@@ -50,9 +50,9 @@ class FeaturesPage extends StatelessComponent {
     },
     {
       'icon': '\u{1f4e1}',
-      'title': 'Live TV (8,600+ Channels)',
+      'title': 'Live Streaming (8,600+ Sources)',
       'desc':
-          'EPG-style channel guide with M3U sync. Health checks ensure channels stay active and responsive.',
+          'Program guide with playlist import and auto-discovery. Health monitoring ensures streams stay active and responsive.',
     },
     {
       'icon': '\u{1f3ac}',
@@ -64,7 +64,7 @@ class FeaturesPage extends StatelessComponent {
       'icon': '\u{1f517}',
       'title': 'P2P Streaming',
       'desc':
-          'libtorrent4j enables efficient torrent-based content delivery. Stream directly from magnet links.',
+          'Peer-to-peer distribution enables efficient content delivery at scale. Reduce bandwidth costs with distributed streaming.',
     },
     {
       'icon': '\u{2699}\u{fe0f}',
