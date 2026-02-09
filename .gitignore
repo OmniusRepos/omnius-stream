@@ -18,6 +18,9 @@ data/
 *.db
 *.db-journal
 
+# Environment
+.env
+
 # OS
 .DS_Store
 Thumbs.db
