@@ -20,7 +20,7 @@ RUN dart compile exe server/main.dart -o /app/api-server
 
 # Runtime stage
 FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y ca-certificates libsqlite3-0 caddy supervisor && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ca-certificates libsqlite3-0 libsqlite3-dev caddy supervisor && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Jaspr SSR server binary + web assets
