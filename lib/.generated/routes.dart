@@ -6,7 +6,7 @@ import 'package:jaspr_router/jaspr_router.dart';
 import '../home/pages/index.dart' as page_homepage;
 import '../app/pages/index.dart' as page_appdashboardpage;
 import '../terms/pages/index.dart' as page_termspage;
-import '../setup/pages/index.dart' as page_setuppage;
+import '../app/pages/setup.dart' as page_setuppage;
 import '../refund/pages/index.dart' as page_refundpage;
 import '../privacy/pages/index.dart' as page_privacypage;
 import '../success/pages/index.dart' as page_successpage;
@@ -38,7 +38,7 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
-    path: '/setup',
+    path: '/app/setup',
     builder: (context, state) {
       return const page_setuppage.SetupPage();
     },
