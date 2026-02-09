@@ -35,7 +35,7 @@ RUN mkdir -p /app/data
 RUN echo '{\n\tadmin off\n}\n:8080 {\n\thandle /api/* {\n\t\treverse_proxy localhost:3001\n\t}\n\thandle {\n\t\treverse_proxy localhost:3002\n\t}\n}' > /etc/caddy/Caddyfile
 
 # Supervisord: run all three processes
-RUN echo '[supervisord]\nnodaemon=true\n\n[program:caddy]\ncommand=caddy run --config /etc/caddy/Caddyfile\nautorestart=true\n\n[program:jaspr]\ncommand=/app/app\ndirectory=/app\nenvironment=PORT="3002"\nautorestart=true\n\n[program:api]\ncommand=/app/api-server\ndirectory=/app\nenvironment=PORT="3001",DATA_DIR="/app/data"\nautorestart=true' > /etc/supervisor/conf.d/app.conf
+RUN echo '[supervisord]\nnodaemon=true\n\n[program:caddy]\ncommand=caddy run --config /etc/caddy/Caddyfile\nautorestart=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0\n\n[program:jaspr]\ncommand=/app/app\ndirectory=/app\nenvironment=PORT="3002"\nautorestart=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0\n\n[program:api]\ncommand=/app/api-server\ndirectory=/app\nenvironment=PORT="3001",DATA_DIR="/app/data"\nautorestart=true\nstdout_logfile=/dev/stdout\nstdout_logfile_maxbytes=0\nstderr_logfile=/dev/stderr\nstderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/app.conf
 
 ENV DATA_DIR=/app/data
 EXPOSE 8080

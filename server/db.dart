@@ -20,7 +20,7 @@ class Db {
       database: '',
       username: '',
       password: '',
-      path: '$dataDir/data/omnius_stream.db',
+      path: '$dataDir/omnius_stream.db',
       ssl: false,
     ));
 
