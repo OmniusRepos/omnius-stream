@@ -1,0 +1,16 @@
+name: omnius.stream
+server: bp.common.al
+port: 8080
+build:
+  dockerfile: Dockerfile
+  context: .
+domains:
+  - omnius.stream
+volumes:
+  - omnius-stream-data:/app/data
+env:
+  PADDLE_WEBHOOK_SECRET: ""
+  PADDLE_PERSONAL_PRICE_ID: ""
+  PADDLE_BUSINESS_PRICE_ID: ""
+  PADDLE_CLIENT_TOKEN: ""
+  DATA_DIR: "/app"

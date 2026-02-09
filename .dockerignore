@@ -1,0 +1,14 @@
+.git
+.gitignore
+.dart_tool
+build
+.output
+.duxt
+.idea
+.vscode
+*.iml
+*.db
+*.db-journal
+.DS_Store
+Thumbs.db
+*.log

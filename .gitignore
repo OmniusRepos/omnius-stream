@@ -1,0 +1,27 @@
+# Dart/Flutter
+.dart_tool/
+.packages
+build/
+pubspec.lock
+
+# Duxt
+.duxt/
+.output/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Database
+data/
+*.db
+*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated
+*.g.dart
+*.freezed.dart

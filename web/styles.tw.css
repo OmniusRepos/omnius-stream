@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@source "../lib/**/*.dart";
+@source "../.duxt/packages/**/*.dart";
+
+@theme {
+  --color-primary-50: #fff1f3;
+  --color-primary-100: #ffe4e8;
+  --color-primary-200: #fecdd6;
+  --color-primary-300: #fda4b4;
+  --color-primary-400: #fb718d;
+  --color-primary-500: #FF2D55;
+  --color-primary-600: #ed1144;
+  --color-primary-700: #c80d38;
+  --color-primary-800: #a80e34;
+  --color-primary-900: #8f1031;
+  --color-primary-950: #500316;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FPP0TIsODBSQ74A.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    src: url('https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FPP0TIsODBSQ74A.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 600;
+    src: url('https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FPP0TIsODBSQ74A.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 700;
+    src: url('https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FPP0TIsODBSQ74A.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 800;
+    src: url('https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FPP0TIsODBSQ74A.woff2') format('woff2');
+  }
+
+  html {
+    font-family: 'JetBrains Mono', monospace;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#141414] text-gray-100;
+  }
+
+  ::selection {
+    @apply bg-primary-500/30 text-white;
+  }
+}
