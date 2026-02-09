@@ -6,6 +6,7 @@ class PricingCard extends StatelessComponent {
   final String price;
   final String subtitle;
   final List<String> features;
+  final List<String> limitations;
   final bool isPopular;
   final String? buttonId;
   final String? buttonText;
@@ -17,6 +18,7 @@ class PricingCard extends StatelessComponent {
     required this.price,
     required this.subtitle,
     required this.features,
+    this.limitations = const [],
     this.isPopular = false,
     this.buttonId,
     this.buttonText,
@@ -46,8 +48,13 @@ class PricingCard extends StatelessComponent {
       Div(className: 'flex-1 space-y-3 mb-8', children: [
         for (final feature in features)
           Div(className: 'flex items-start gap-2', children: [
-            Span(className: 'text-primary-500 mt-0.5', child: Text('\u2713')),
+            Span(className: 'text-green-500 mt-0.5', child: Text('\u2713')),
             Span(className: 'text-gray-300 text-sm', child: Text(feature)),
+          ]),
+        for (final limit in limitations)
+          Div(className: 'flex items-start gap-2', children: [
+            Span(className: 'text-red-500/60 mt-0.5', child: Text('\u2717')),
+            Span(className: 'text-gray-500 text-sm', child: Text(limit)),
           ]),
       ]),
       if (buttonId != null)

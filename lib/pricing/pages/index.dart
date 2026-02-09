@@ -29,42 +29,50 @@ class PricingPage extends StatelessComponent {
               PricingCard(
                 title: 'Personal',
                 price: '\$99',
-                subtitle: 'For personal streaming setups',
+                subtitle: 'For trying out the platform',
                 buttonId: 'buy-personal',
                 buttonText: 'Buy Personal',
                 features: [
                   '1 deployment license key',
                   'Server + Admin Panel',
                   'Android TV + macOS apps',
-                  'All features included',
+                  'Up to 100 content items',
+                  'Community support (docs)',
+                ],
+                limitations: [
+                  'No live streams',
+                  'No P2P distribution',
                   'Personal use only',
                 ],
               ),
               PricingCard(
                 title: 'Business',
-                price: '\$299',
-                subtitle: 'For teams and commercial use',
+                price: '\$499',
+                subtitle: 'Full platform, no restrictions',
                 isPopular: true,
                 buttonId: 'buy-business',
                 buttonText: 'Buy Business',
                 features: [
                   '5 deployment license keys',
-                  'Everything in Personal',
+                  'Unlimited content items',
+                  'Live streams + EPG',
+                  'P2P distribution',
                   'Priority email support',
                   'Commercial use allowed',
-                  'Future updates included',
+                  'All future updates included',
                 ],
               ),
               PricingCard(
                 title: 'Enterprise',
-                price: 'Custom',
-                subtitle: 'For large-scale deployments',
-                href: 'mailto:hello@omnius.stream?subject=Enterprise%20Inquiry',
-                buttonText: 'Contact Sales',
+                price: '\$999',
+                subtitle: 'White-label your own platform',
+                buttonId: 'buy-enterprise',
+                buttonText: 'Buy Enterprise',
                 features: [
                   'Unlimited deployments',
-                  'Custom-branded builds',
+                  'Everything in Business',
                   'White-label APK + server',
+                  'Custom branding & logo',
                   'Dedicated support',
                   'Custom feature development',
                 ],
@@ -116,6 +124,7 @@ class PricingPage extends StatelessComponent {
 
   var personalBtn = document.getElementById('buy-personal');
   var businessBtn = document.getElementById('buy-business');
+  var enterpriseBtn = document.getElementById('buy-enterprise');
 
   if (personalBtn) {
     personalBtn.addEventListener('click', function() {
@@ -125,6 +134,11 @@ class PricingPage extends StatelessComponent {
   if (businessBtn) {
     businessBtn.addEventListener('click', function() {
       openCheckout(window.__PADDLE_BUSINESS_PRICE_ID || 'pri_business');
+    });
+  }
+  if (enterpriseBtn) {
+    enterpriseBtn.addEventListener('click', function() {
+      openCheckout(window.__PADDLE_ENTERPRISE_PRICE_ID || 'pri_enterprise');
     });
   }
 })();

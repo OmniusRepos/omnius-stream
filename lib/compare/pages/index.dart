@@ -72,7 +72,7 @@ class ComparePage extends StatelessComponent {
                   Tbody(children: [
                     // --- Pricing ---
                     _sectionHeader('Pricing & Model'),
-                    _row('Starting Price', ['\$99', 'Custom', 'Custom', 'Free', 'Free', 'Free']),
+                    _row('Starting Price', ['From \$99', 'Custom', 'Custom', 'Free', 'Free', 'Free']),
                     _row('Pricing Model', ['One-time', 'Annual + services', 'Annual + services', 'Open source', 'Freemium', 'Open source']),
                     _row('Commercial Use', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
                     _row('No Vendor Lock-in', ['\u2713', '\u2717', '\u2717', '\u2713', '\u2717', '\u2713']),
