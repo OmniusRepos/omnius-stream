@@ -12,10 +12,7 @@ class SiteHeader extends StatelessComponent {
       child: Div(className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8', child:
         Div(className: 'flex h-16 items-center justify-between', children: [
           Link(to: '/', child:
-            Div(className: 'flex items-center gap-2', children: [
-              Span(className: 'text-2xl font-bold text-primary-500', child: Text('O')),
-              Span(className: 'text-lg font-semibold text-white', child: Text('mnius')),
-            ]),
+            Img(src: '/logo.svg', alt: 'Omnius', className: 'h-6'),
           ),
           Nav(className: 'hidden md:flex items-center gap-6', children: [
             Link(to: '/features', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Features'))),

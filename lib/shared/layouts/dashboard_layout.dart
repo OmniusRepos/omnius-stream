@@ -12,10 +12,9 @@ class DashboardLayout extends StatelessComponent {
       // Sidebar
       Aside(className: 'hidden lg:flex lg:flex-col w-64 bg-[#1a1a1a] border-r border-white/10', children: [
         Div(className: 'h-16 flex items-center px-6 border-b border-white/10', children: [
-          Link(to: '/', child: Div(className: 'flex items-center gap-2', children: [
-            Span(className: 'text-2xl font-bold text-primary-500', child: Text('O')),
-            Span(className: 'text-lg font-semibold text-white', child: Text('mnius')),
-          ])),
+          Link(to: '/', child:
+            Img(src: '/logo.svg', alt: 'Omnius', className: 'h-6'),
+          ),
         ]),
         Nav(className: 'flex-1 px-4 py-6 space-y-1', children: [
           Link(to: '/app', child: Div(className: 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors', children: [

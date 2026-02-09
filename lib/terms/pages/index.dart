@@ -22,16 +22,16 @@ class TermsPage extends StatelessComponent {
           _section('2. License Validation', [
             'The software requires license validation via our license server.',
             'On first activation, the server registers a machine fingerprint (hashed UUID + hostname).',
-            'The server sends periodic heartbeats every 6 hours to verify the license.',
-            'If validation fails, a 7-day grace period allows continued operation.',
-            'After the grace period, the server enters demo mode with limited functionality.',
+            'The server validates via heartbeat every 6 hours to verify the license.',
+            'If the license server is unreachable, a 7-day grace period allows continued operation.',
+            'After the grace period, API endpoints are disabled (same as running without a license).',
           ]),
-          _section('3. Demo Mode Limitations', [
-            'Running without a valid license or after grace period expiry limits the server to:',
-            '\u2022 10 movies maximum',
-            '\u2022 2 series maximum',
-            '\u2022 No live TV channels',
-            '\u2022 Watermark on video player',
+          _section('3. Without a License', [
+            'Running the server without a LICENSE_KEY starts it in admin-only mode:',
+            '\u2022 The admin panel at /admin is fully functional for managing content',
+            '\u2022 All JSON API endpoints (/api/v2/) are disabled and return HTTP 403',
+            '\u2022 Client applications (Android TV, macOS) cannot connect without a valid license',
+            '\u2022 This allows you to set up and configure your content before purchasing',
           ]),
           _section('4. Restrictions', [
             'You may NOT share your license key with unauthorized parties.',
