@@ -29,7 +29,7 @@ class RefundPage extends StatelessComponent {
           _section('How to Request a Refund', [
             'Send an email to hello@omnius.stream with your purchase email and order details.',
             'Refund requests must be made within 14 days of the original purchase date.',
-            'Paddle (our payment processor) will process the refund to your original payment method.',
+            'Polar.sh (our payment processor) will process the refund to your original payment method.',
             'Refunds typically appear within 5\u201310 business days.',
           ]),
           _section('Refund Conditions', [

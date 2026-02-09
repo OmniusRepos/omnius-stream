@@ -47,7 +47,7 @@ class PrivacyPage extends StatelessComponent {
           ]),
           _section('6. Third-Party Sharing', [
             'We do NOT sell or share your data with third parties.',
-            'Payment processing is handled by Paddle, which has its own privacy policy.',
+            'Payment processing is handled by Polar.sh, which has its own privacy policy.',
             'We may disclose data if required by law or to protect our legal rights.',
           ]),
           _section('7. Your Rights', [

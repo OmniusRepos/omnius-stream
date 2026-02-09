@@ -8,7 +8,7 @@ class Licens extends Entity {
   String? plan;
   int? max_deployments;
   bool? is_active;
-  String? paddle_transaction_id;
+  String? transaction_id;
   String? notes;
   String? expires_at;
   DateTime? createdAt;
@@ -21,7 +21,7 @@ class Licens extends Entity {
     this.plan,
     this.max_deployments,
     this.is_active,
-    this.paddle_transaction_id,
+    this.transaction_id,
     this.notes,
     this.expires_at,
     this.createdAt,
@@ -41,7 +41,7 @@ class Licens extends Entity {
         'plan': plan,
         'max_deployments': max_deployments,
         'is_active': is_active == true ? 1 : 0,
-        'paddle_transaction_id': paddle_transaction_id,
+        'transaction_id': transaction_id,
         'notes': notes,
         'expires_at': expires_at,
       };
@@ -53,7 +53,7 @@ class Licens extends Entity {
         plan: row['plan'] as String?,
         max_deployments: row['max_deployments'] as int?,
         is_active: (row['is_active'] as int?) == 1,
-        paddle_transaction_id: row['paddle_transaction_id'] as String?,
+        transaction_id: row['transaction_id'] as String?,
         notes: row['notes'] as String?,
         expires_at: row['expires_at'] as String?,
         createdAt: row['created_at'] != null
@@ -71,7 +71,7 @@ class Licens extends Entity {
         'plan': plan,
         'max_deployments': max_deployments,
         'is_active': is_active,
-        'paddle_transaction_id': paddle_transaction_id,
+        'transaction_id': transaction_id,
         'notes': notes,
         'expires_at': expires_at,
         'createdAt': createdAt?.toIso8601String(),
@@ -88,7 +88,7 @@ class Licens extends Entity {
         'plan': Column.string(20).nullable(),
         'max_deployments': Column.integer().nullable(),
         'is_active': Column.boolean().defaultValue(true),
-        'paddle_transaction_id': Column.string(100).unique().nullable(),
+        'transaction_id': Column.string(100).unique().nullable(),
         'notes': Column.text().nullable(),
         'expires_at': Column.string(255).nullable(),
         'created_at': Column.dateTime().nullable(),

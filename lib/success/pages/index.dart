@@ -98,7 +98,7 @@ class SuccessPage extends StatelessComponent {
                   // Links
                   Div(className: 'mt-8 flex justify-center gap-4', children: [
                     Link(
-                      to: '/setup',
+                      to: '/app/setup',
                       child: Span(
                           className:
                               'px-5 py-2.5 bg-primary-500 text-white font-semibold rounded-lg text-sm hover:bg-primary-600 transition-colors',
@@ -135,7 +135,8 @@ class SuccessPage extends StatelessComponent {
               (function() {
                 const params = new URLSearchParams(window.location.search);
                 const email = params.get('email');
-                if (!email) {
+                const checkoutId = params.get('checkout_id');
+                if (!email && !checkoutId) {
                   document.getElementById('loading-state').classList.add('hidden');
                   document.getElementById('error-state').classList.remove('hidden');
                   return;

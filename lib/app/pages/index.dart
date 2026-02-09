@@ -159,7 +159,7 @@ class AppDashboardPage extends StatelessComponent {
           var statusClass = order.status === 'completed' ? 'text-green-500' : 'text-red-500';
           var row = document.createElement('tr');
           row.className = 'border-b border-white/5';
-          row.innerHTML = '<td class="px-6 py-3 text-gray-300 font-mono text-xs">' + (order.paddle_transaction_id || 'N/A') + '</td>' +
+          row.innerHTML = '<td class="px-6 py-3 text-gray-300 font-mono text-xs">' + (order.transaction_id || 'N/A') + '</td>' +
             '<td class="px-6 py-3 text-gray-300">' + (order.amount || '0') + ' ' + (order.currency || 'USD') + '</td>' +
             '<td class="px-6 py-3 ' + statusClass + ' font-medium capitalize">' + (order.status || 'unknown') + '</td>' +
             '<td class="px-6 py-3 text-gray-400">' + date + '</td>';

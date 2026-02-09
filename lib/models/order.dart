@@ -4,7 +4,7 @@ class Order extends Entity {
   int? _id;
   int? user_id;
   int? license_id;
-  String? paddle_transaction_id;
+  String? transaction_id;
   String? amount;
   String? currency;
   String? status;
@@ -15,7 +15,7 @@ class Order extends Entity {
     int? id,
     this.user_id,
     this.license_id,
-    this.paddle_transaction_id,
+    this.transaction_id,
     this.amount,
     this.currency,
     this.status,
@@ -33,7 +33,7 @@ class Order extends Entity {
   Map<String, dynamic> toMap() => {
         'user_id': user_id,
         'license_id': license_id,
-        'paddle_transaction_id': paddle_transaction_id,
+        'transaction_id': transaction_id,
         'amount': amount,
         'currency': currency,
         'status': status,
@@ -43,7 +43,7 @@ class Order extends Entity {
         id: row['id'] as int?,
         user_id: row['user_id'] as int?,
         license_id: row['license_id'] as int?,
-        paddle_transaction_id: row['paddle_transaction_id'] as String?,
+        transaction_id: row['transaction_id'] as String?,
         amount: row['amount'] as String?,
         currency: row['currency'] as String?,
         status: row['status'] as String?,
@@ -59,7 +59,7 @@ class Order extends Entity {
         'id': _id,
         'user_id': user_id,
         'license_id': license_id,
-        'paddle_transaction_id': paddle_transaction_id,
+        'transaction_id': transaction_id,
         'amount': amount,
         'currency': currency,
         'status': status,
@@ -74,7 +74,7 @@ class Order extends Entity {
         'id': Column.integer().primaryKey().autoIncrement(),
         'user_id': Column.integer().nullable(),
         'license_id': Column.integer().nullable(),
-        'paddle_transaction_id': Column.string(100).nullable(),
+        'transaction_id': Column.string(100).nullable(),
         'amount': Column.string(20).nullable(),
         'currency': Column.string(3).nullable(),
         'status': Column.string(20).nullable(),
@@ -84,7 +84,7 @@ class Order extends Entity {
     );
   }
 
-  String get displayLabel => paddle_transaction_id ?? 'ID: $id';
+  String get displayLabel => transaction_id ?? 'ID: $id';
 
   @override
   String toString() => 'Order(id: $_id, user_id: $user_id)';

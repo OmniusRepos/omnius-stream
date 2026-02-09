@@ -40,9 +40,9 @@ class TermsPage extends StatelessComponent {
             'You may NOT redistribute or resell the software or license keys.',
           ]),
           _section('5. Payment', [
-            'All payments are processed through Paddle, our merchant of record.',
+            'All payments are processed through Polar.sh, our payment provider.',
             'Prices are one-time payments with no recurring fees.',
-            'All applicable taxes are handled by Paddle.',
+            'All applicable taxes are handled by Polar.sh.',
           ]),
           _section('6. Refund Policy', [
             'We offer a 14-day money-back guarantee from the date of purchase.',

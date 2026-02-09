@@ -98,49 +98,19 @@ class PricingPage extends StatelessComponent {
         ]),
       ]),
 
-      // Paddle.js
-      script(src: 'https://cdn.paddle.com/paddle/v2/paddle.js'),
+      // Polar.sh checkout redirect
       script(content: '''
 (function() {
-  if (typeof Paddle === 'undefined') return;
-  Paddle.Environment.set('sandbox');
-  Paddle.Initialize({
-    token: window.__PADDLE_CLIENT_TOKEN || 'test_token',
+  var checkoutUrl = 'https://buy.polar.sh/polar_cl_nshOK8uQLljxUrC1U0vAVcHSjW4CNlBt2KJYa13cWNh';
+  var buttons = ['buy-personal', 'buy-business', 'buy-enterprise'];
+  buttons.forEach(function(id) {
+    var btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', function() {
+        window.location.href = checkoutUrl;
+      });
+    }
   });
-
-  function openCheckout(priceId) {
-    Paddle.Checkout.open({
-      items: [{ priceId: priceId, quantity: 1 }],
-      settings: { theme: 'dark' },
-      customer: {},
-      eventCallback: function(event) {
-        if (event.name === 'checkout.completed') {
-          var email = event.data?.customer?.email || '';
-          window.location.href = '/success?email=' + encodeURIComponent(email);
-        }
-      },
-    });
-  }
-
-  var personalBtn = document.getElementById('buy-personal');
-  var businessBtn = document.getElementById('buy-business');
-  var enterpriseBtn = document.getElementById('buy-enterprise');
-
-  if (personalBtn) {
-    personalBtn.addEventListener('click', function() {
-      openCheckout(window.__PADDLE_PERSONAL_PRICE_ID || 'pri_personal');
-    });
-  }
-  if (businessBtn) {
-    businessBtn.addEventListener('click', function() {
-      openCheckout(window.__PADDLE_BUSINESS_PRICE_ID || 'pri_business');
-    });
-  }
-  if (enterpriseBtn) {
-    enterpriseBtn.addEventListener('click', function() {
-      openCheckout(window.__PADDLE_ENTERPRISE_PRICE_ID || 'pri_enterprise');
-    });
-  }
 })();
       '''),
     ]);

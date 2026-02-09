@@ -3,7 +3,7 @@ import 'package:duxt/server.dart';
 import 'db.dart';
 import 'api/auth.dart';
 import 'api/licenses.dart';
-import 'api/paddle.dart';
+import 'api/polar.dart';
 import 'api/dashboard.dart';
 
 void main() async {
@@ -20,7 +20,7 @@ void main() async {
   // Register API routes
   registerAuthRoutes(server);
   registerLicensRoutes(server);
-  registerPaddleRoutes(server);
+  registerPolarRoutes(server);
   registerDashboardRoutes(server);
 
   server.start();
