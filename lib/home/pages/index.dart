@@ -1,5 +1,6 @@
 import 'package:duxt_html/duxt_html.dart';
 import 'package:jaspr/jaspr.dart' show StatelessComponent, BuildContext;
+import 'package:jaspr/dom.dart' show script;
 import 'package:jaspr_router/jaspr_router.dart';
 
 class HomePage extends StatelessComponent {
@@ -155,6 +156,32 @@ class HomePage extends StatelessComponent {
         ]),
       ]),
 
+      // Lightbox Modal
+      Div(
+        id: 'lightbox',
+        className: 'fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm cursor-pointer',
+        attributes: {'onclick': 'this.classList.add("hidden");this.classList.remove("flex")'},
+        children: [
+          Img(id: 'lightbox-img', src: '', alt: '', className: 'max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl'),
+        ],
+      ),
+      script(content: '''
+function openLightbox(src) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  img.src = src;
+  lb.classList.remove('hidden');
+  lb.classList.add('flex');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var lb = document.getElementById('lightbox');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+  }
+});
+      '''),
+
       // CTA Section
       Section(className: 'py-24', children: [
         Div(className: 'max-w-3xl mx-auto px-4 text-center', children: [
@@ -185,12 +212,12 @@ class HomePage extends StatelessComponent {
   }
 
   Component _screenshot(String src, String caption) {
-    return Div(className: 'group', children: [
+    return Div(className: 'group cursor-pointer', attributes: {'onclick': 'openLightbox("$src")'}, children: [
       Div(
           className:
-              'rounded-xl overflow-hidden border border-white/10 bg-white/5',
+              'rounded-xl overflow-hidden border border-white/10 bg-white/5 group-hover:border-primary-500/30 transition-all',
           children: [
-            Img(src: src, alt: caption, className: 'w-full h-auto'),
+            Img(src: src, alt: caption, className: 'w-full h-auto group-hover:scale-[1.02] transition-transform'),
           ]),
       P(className: 'text-sm text-gray-500 text-center mt-3',
           child: Text(caption)),
