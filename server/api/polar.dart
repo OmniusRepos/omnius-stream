@@ -46,8 +46,8 @@ void registerPolarRoutes(DuxtServer server) {
       return json({'error': 'Empty body'}, statusCode: 400);
     }
 
-    // Re-encode body for signature verification
-    final bodyString = jsonEncode(body);
+    // Use raw body string for signature verification (not re-encoded JSON)
+    final bodyString = req.rawBody ?? jsonEncode(body);
 
     // Verify webhook signature (Standard Webhooks spec)
     final webhookId = req.headers['webhook-id'];
