@@ -24,14 +24,14 @@ void registerAdminRoutes(DuxtServer server) {
       return json({'error': 'Unauthorized'}, statusCode: 401);
     }
 
-    final allUsers = await users.get();
-    final allLicenses = await licenses.get();
+    final totalUsers = await users.count();
+    final totalLicenses = await licenses.count();
     final activeLicenses = await licenses.where('is_active', 1).get();
     final activeDeployments = await deployments.where('is_active', 1).get();
 
     return json({
-      'total_users': allUsers.length,
-      'total_licenses': allLicenses.length,
+      'total_users': totalUsers,
+      'total_licenses': totalLicenses,
       'active_licenses': activeLicenses.length,
       'active_deployments': activeDeployments.length,
     });
@@ -43,8 +43,8 @@ void registerAdminRoutes(DuxtServer server) {
       return json({'error': 'Unauthorized'}, statusCode: 401);
     }
 
-    final allUsers = await users.get();
-    final allLicenses = await licenses.get();
+    final allUsers = await users.all();
+    final allLicenses = await licenses.all();
 
     final usersWithCounts = allUsers.map((user) {
       final licenseCount =
@@ -63,8 +63,8 @@ void registerAdminRoutes(DuxtServer server) {
       return json({'error': 'Unauthorized'}, statusCode: 401);
     }
 
-    final allLicenses = await licenses.get();
-    final allUsers = await users.get();
+    final allLicenses = await licenses.all();
+    final allUsers = await users.all();
     final userMap = {for (var u in allUsers) u.id: u};
 
     final enriched = allLicenses.map((l) {
@@ -84,8 +84,8 @@ void registerAdminRoutes(DuxtServer server) {
       return json({'error': 'Unauthorized'}, statusCode: 401);
     }
 
-    final allOrders = await orders.get();
-    final allUsers = await users.get();
+    final allOrders = await orders.all();
+    final allUsers = await users.all();
     final userMap = {for (var u in allUsers) u.id: u};
 
     final enriched = allOrders.map((o) {
@@ -221,7 +221,7 @@ void registerAdminRoutes(DuxtServer server) {
       }
       results = await deployments.where('license_id', licenseId).get();
     } else {
-      results = await deployments.get();
+      results = await deployments.all();
     }
 
     return json({
