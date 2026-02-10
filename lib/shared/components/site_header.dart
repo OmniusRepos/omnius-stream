@@ -35,15 +35,13 @@ class SiteHeader extends StatelessComponent {
         ),
         script(content: '''
 (function() {
-  function hasSession() {
-    return document.cookie.split(';').some(function(c) {
-      return c.trim().startsWith('session=');
-    });
-  }
   var el = document.getElementById('auth-link');
-  if (el && hasSession()) {
-    el.innerHTML = '<a href="/app" class="text-sm text-gray-400 hover:text-white transition-colors">Dashboard</a>';
-  }
+  if (!el) return;
+  fetch('/api/auth/me').then(function(r) { return r.json(); }).then(function(data) {
+    if (data.user) {
+      el.innerHTML = '<a href="/app" class="text-sm text-gray-400 hover:text-white transition-colors">Dashboard</a>';
+    }
+  }).catch(function() {});
 })();
 '''),
       ],
