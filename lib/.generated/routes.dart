@@ -16,6 +16,7 @@ import '../features/pages/index.dart' as page_featurespage;
 import '../technology/pages/index.dart' as page_technologypage;
 import '../auth/pages/login.dart' as page_loginpage;
 import '../auth/pages/register.dart' as page_registerpage;
+import '../admin/pages/index.dart' as page_adminpage;
 
 /// Generated routes from modules
 final generatedRoutes = <Route>[
@@ -95,6 +96,12 @@ final generatedRoutes = <Route>[
     path: '/auth/register',
     builder: (context, state) {
       return const page_registerpage.RegisterPage();
+    },
+  ),
+  Route(
+    path: '/admin',
+    builder: (context, state) {
+      return const page_adminpage.AdminPage();
     },
   ),
 ];
