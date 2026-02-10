@@ -15,42 +15,40 @@ class SetupPage extends StatelessComponent {
               child: Text('Setup & Deployment')),
           P(className: 'text-xl text-gray-400',
               child: Text(
-                  'Get your Omnius streaming server running in minutes with Docker.')),
+                  'Get your Omnius streaming server running in minutes.')),
         ]),
       ]),
 
-      // Quick Start with Docker
+      // Download
       Section(className: 'py-12', children: [
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('1. Quick Start with Docker')),
+              child: Text('1. Download')),
           P(className: 'text-gray-400 mb-4',
-              child: Text('The fastest way to get started. Run this single command:')),
-          Div(
-              className:
-                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
-              children: [
-                Pre(child:
-                  Code(className: 'text-sm text-gray-300 whitespace-pre',
-                      child: Text(
-                          'docker run -d \\\n'
-                          '  --name omnius \\\n'
-                          '  -p 8080:8080 \\\n'
-                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
-                          '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
-              ]),
+              child: Text('Download the latest binary for your platform from GitHub Releases:')),
+          Div(className: 'grid md:grid-cols-3 gap-4 mb-6', children: [
+            _downloadCard('Linux (x64)', 'omnius-linux-amd64', 'Most VPS and servers'),
+            _downloadCard('Linux (ARM64)', 'omnius-linux-arm64', 'Raspberry Pi, ARM servers'),
+            _downloadCard('macOS (Apple Silicon)', 'omnius-darwin-arm64', 'M1/M2/M3/M4 Macs'),
+          ]),
+          Div(className: 'text-center', children: [
+            A(
+              href: 'https://github.com/OmniusRepos/omnius-releases/releases',
+              target: Target.blank,
+              className: 'text-primary-500 hover:text-primary-400 font-medium transition-colors',
+              child: Text('View all releases on GitHub \u2192'),
+            ),
+          ]),
         ]),
       ]),
 
-      // Docker Compose
+      // Run
       Section(className: 'py-12 bg-[#141414]', children: [
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('2. Docker Compose (Recommended)')),
+              child: Text('2. Run')),
           P(className: 'text-gray-400 mb-4',
-              child: Text('For production deployments, use Docker Compose for easier management and automatic restarts:')),
+              child: Text('Make it executable and run with your license key:')),
           Div(
               className:
                   'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
@@ -58,23 +56,14 @@ class SetupPage extends StatelessComponent {
                 Pre(child:
                   Code(className: 'text-sm text-gray-300 whitespace-pre',
                       child: Text(
-                          'services:\n'
-                          '  omnius:\n'
-                          '    image: ghcr.io/omniusrepos/omnius-server:latest\n'
-                          '    ports:\n'
-                          '      - "8080:8080"\n'
-                          '    environment:\n'
-                          '      LICENSE_KEY: YOUR_LICENSE_KEY\n'
-                          '      ADMIN_PASSWORD: your_secure_password\n'
-                          '    volumes:\n'
-                          '      - omnius-data:/app/data\n'
-                          '    restart: unless-stopped\n'
+                          'chmod +x omnius-linux-amd64\n'
                           '\n'
-                          'volumes:\n'
-                          '  omnius-data:'))),
+                          'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                          'ADMIN_PASSWORD=your_secure_password \\\n'
+                          './omnius-linux-amd64'))),
               ]),
           P(className: 'text-gray-400 mt-4',
-              child: Text('Save this as docker-compose.yml and run: docker-compose up -d')),
+              child: Text('The server starts on port 8080 by default. Data is stored in ./data/')),
         ]),
       ]),
 
@@ -124,7 +113,7 @@ class SetupPage extends StatelessComponent {
       Section(className: 'py-12 bg-[#141414]', children: [
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('4. Without a License')),
+              child: Text('4. Running Without a License')),
           Div(
               className:
                   'rounded-xl bg-primary-500/5 border border-primary-500/20 p-6',
@@ -175,18 +164,18 @@ class SetupPage extends StatelessComponent {
                     child: Text(
                         'We have a live demo instance running without a license key so you can see how the admin panel works:')),
                 A(
-                  href: 'https://demo.omnius.lol',
+                  href: 'https://demo-api.omnius.stream',
                   target: Target.blank,
                   className:
                       'inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
                   children: [
                     Text('Visit Demo Instance'),
-                    Span(child: Text('→')),
+                    Span(child: Text('\u2192')),
                   ],
                 ),
                 P(className: 'text-xs text-gray-500 mt-4',
                     child: Text(
-                        'Note: The demo runs without a license, so API endpoints will return 403 errors.')),
+                        'Note: The demo runs without a license, so client apps cannot connect to it.')),
               ]),
         ]),
       ]),
@@ -279,6 +268,18 @@ class SetupPage extends StatelessComponent {
         ]),
       ]),
     ]);
+  }
+
+  Component _downloadCard(String platform, String filename, String note) {
+    return A(
+        href: 'https://github.com/OmniusRepos/omnius-releases/releases/latest/download/$filename',
+        target: Target.blank,
+        className: 'block p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors',
+        children: [
+          H3(className: 'text-sm font-bold text-white mb-1', child: Text(platform)),
+          P(className: 'text-xs text-primary-500 font-mono mb-2', child: Text(filename)),
+          P(className: 'text-xs text-gray-500', child: Text(note)),
+        ]);
   }
 
   Component _envRow(String variable, String defaultValue, String description) {

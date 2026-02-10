@@ -78,10 +78,10 @@ class SuccessPage extends StatelessComponent {
                               ),
                             ]),
                       ]),
-                  // Docker command
+                  // Run command
                   Div(className: 'mt-6 text-left', children: [
                     P(className: 'text-sm text-gray-400 mb-3',
-                        child: Text('Deploy with Docker:')),
+                        child: Text('Run your server:')),
                     Div(
                         className:
                             'rounded-xl bg-[#0d0d0d] border border-white/10 p-4 overflow-x-auto',
@@ -199,7 +199,7 @@ class SuccessPage extends StatelessComponent {
                     license.plan.toUpperCase() + ' \u2022 ' + license.max_deployments + ' deployment(s)</span>';
 
                   var dockerCmd = document.getElementById('docker-cmd');
-                  dockerCmd.textContent = 'docker run -d \\\\\\n  --name omnius \\\\\\n  -p 8080:8080 \\\\\\n  -e LICENSE_KEY=' + license.license_key + ' \\\\\\n  -v omnius-data:/app/data \\\\\\n  ghcr.io/omnius-stream/server:latest';
+                  dockerCmd.textContent = 'LICENSE_KEY=' + license.license_key + ' \\\\\n  ADMIN_PASSWORD=your_secure_password \\\\\n  ./omnius-linux-amd64';
 
                   document.getElementById('copy-btn').addEventListener('click', function() {
                     navigator.clipboard.writeText(license.license_key);

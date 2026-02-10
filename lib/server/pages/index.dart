@@ -17,7 +17,7 @@ class ServerPage extends StatelessComponent {
           P(
               className: 'text-xl text-gray-400',
               child: Text(
-                  'Self-hosted streaming platform. Deploy with Docker in minutes. Full control over your infrastructure.')),
+                  'Self-hosted streaming platform. Download, configure, and run. Full control over your infrastructure.')),
         ]),
       ]),
 
@@ -25,11 +25,11 @@ class ServerPage extends StatelessComponent {
       Section(className: 'py-12', children: [
         Div(className: 'max-w-5xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-8 text-center',
-              child: Text('Everything in One Container')),
+              child: Text('Everything in One Binary')),
           Div(className: 'grid md:grid-cols-2 lg:grid-cols-3 gap-6', children: [
             _featureCard('Admin Panel', 'Manage movies, series, live streams, EPG, and user accounts from a web interface.'),
             _featureCard('REST API', 'Full JSON API for client apps. HLS, DASH, and progressive HTTP streaming.'),
-            _featureCard('Embedded Database', 'SQLite — no external database required. Zero dependencies beyond Docker.'),
+            _featureCard('Embedded Database', 'SQLite — no external database required. Zero dependencies.'),
             _featureCard('M3U Import', 'Import existing channel playlists. Works with any M3U/M3U8 source.'),
             _featureCard('Multi-User', 'Create accounts for your users with individual access and continue-watching support.'),
             _featureCard('P2P Distribution', 'Built-in peer-to-peer content distribution to reduce server bandwidth.'),
@@ -57,7 +57,7 @@ class ServerPage extends StatelessComponent {
             ]),
             _costCard('Home Server', 'Free', [
               'Raspberry Pi 4/5, NAS, old PC',
-              'Runs anywhere Docker runs',
+              'Runs on Linux, macOS, Windows',
               'No monthly costs',
             ]),
           ]),
@@ -71,26 +71,29 @@ class ServerPage extends StatelessComponent {
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6 text-center',
               child: Text('Quick Start')),
+          P(className: 'text-gray-400 mb-4 text-center',
+              child: Text('Download the latest release for your platform and run:')),
           Div(
               className: 'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
               children: [
                 Pre(child:
                   Code(className: 'text-sm text-gray-300 whitespace-pre',
                       child: Text(
-                          'docker run -d \\\n'
-                          '  --name omnius \\\n'
-                          '  -p 8080:8080 \\\n'
-                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
-                          '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
+                          '# Download from GitHub Releases\n'
+                          'wget https://github.com/OmniusRepos/omnius-releases/releases/latest/download/omnius-linux-amd64\n'
+                          'chmod +x omnius-linux-amd64\n'
+                          '\n'
+                          '# Run with your license key\n'
+                          'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                          'ADMIN_PASSWORD=your_secure_password \\\n'
+                          './omnius-linux-amd64'))),
               ]),
           Div(className: 'text-center mt-6', children: [
             Link(
               to: '/app/setup',
               child: Span(
                   className: 'text-primary-500 hover:text-primary-400 font-medium transition-colors',
-                  child: Text('Full setup guide with Docker Compose, env vars, and more \u2192')),
+                  child: Text('Full setup guide with all platforms, env vars, and more \u2192')),
             ),
           ]),
         ]),
