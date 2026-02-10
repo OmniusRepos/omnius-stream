@@ -98,16 +98,35 @@ class PricingPage extends StatelessComponent {
         ]),
       ]),
 
-      // Polar.sh checkout redirect
+      // Auth check + Polar checkout redirect
       script(content: '''
 (function() {
   var checkoutUrl = 'https://buy.polar.sh/polar_cl_nshOK8uQLljxUrC1U0vAVcHSjW4CNlBt2KJYa13cWNh';
   var buttons = ['buy-personal', 'buy-business', 'buy-enterprise'];
+  var userEmail = null;
+
+  // Check if user is logged in
+  fetch('/api/auth/me')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.user && data.user.email) {
+        userEmail = data.user.email;
+      }
+    })
+    .catch(function() {});
+
   buttons.forEach(function(id) {
     var btn = document.getElementById(id);
     if (btn) {
       btn.addEventListener('click', function() {
-        window.location.href = checkoutUrl;
+        if (!userEmail) {
+          // Not logged in — redirect to login with return URL
+          window.location.href = '/auth/login?redirect=/pricing';
+          return;
+        }
+        // Logged in — pass email to Polar checkout
+        var url = checkoutUrl + '?customer_email=' + encodeURIComponent(userEmail);
+        window.location.href = url;
       });
     }
   });

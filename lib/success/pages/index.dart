@@ -134,13 +134,27 @@ class SuccessPage extends StatelessComponent {
           script(content: '''
               (function() {
                 const params = new URLSearchParams(window.location.search);
-                const email = params.get('email');
+                var email = params.get('email');
                 const checkoutId = params.get('checkout_id');
-                if (!email && !checkoutId) {
-                  document.getElementById('loading-state').classList.add('hidden');
-                  document.getElementById('error-state').classList.remove('hidden');
-                  return;
-                }
+
+                // Try to get email from logged-in user session
+                var userEmailPromise = fetch('/api/auth/me')
+                  .then(function(r) { return r.json(); })
+                  .then(function(data) {
+                    if (data.user && data.user.email) {
+                      email = data.user.email;
+                    }
+                  })
+                  .catch(function() {});
+
+                userEmailPromise.then(function() {
+                  if (!email && !checkoutId) {
+                    document.getElementById('loading-state').classList.add('hidden');
+                    document.getElementById('error-state').classList.remove('hidden');
+                    return;
+                  }
+                  setTimeout(poll, pollInterval);
+                });
 
                 let attempts = 0;
                 const maxAttempts = 20;
@@ -198,7 +212,6 @@ class SuccessPage extends StatelessComponent {
                   document.getElementById('error-state').classList.remove('hidden');
                 }
 
-                setTimeout(poll, pollInterval);
               })();
             '''),
         ]);

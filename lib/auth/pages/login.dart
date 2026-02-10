@@ -97,32 +97,43 @@ class LoginPage extends StatelessComponent {
               ]),
           // Inline script for form handling
           script(content: '''
-            document.getElementById('login-form')?.addEventListener('submit', async (e) => {
-              e.preventDefault();
-              const errorEl = document.getElementById('login-error');
-              errorEl.classList.add('hidden');
+            (function() {
+              const params = new URLSearchParams(window.location.search);
+              const redirect = params.get('redirect');
 
-              const email = document.getElementById('email').value;
-              const password = document.getElementById('password').value;
+              // Pass redirect param to register link
+              if (redirect) {
+                const regLink = document.querySelector('a[href*="/auth/register"]');
+                if (regLink) regLink.href = '/auth/register?redirect=' + encodeURIComponent(redirect);
+              }
 
-              try {
-                const res = await fetch('/api/auth/login', {
-                  method: 'POST',
-                  headers: {'Content-Type': 'application/json'},
-                  body: JSON.stringify({email, password}),
-                });
-                const data = await res.json();
-                if (res.ok) {
-                  window.location.href = '/app';
-                } else {
-                  errorEl.textContent = data.error || 'Login failed';
+              document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const errorEl = document.getElementById('login-error');
+                errorEl.classList.add('hidden');
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                  const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email, password}),
+                  });
+                  const data = await res.json();
+                  if (res.ok) {
+                    window.location.href = redirect || '/app';
+                  } else {
+                    errorEl.textContent = data.error || 'Login failed';
+                    errorEl.classList.remove('hidden');
+                  }
+                } catch (err) {
+                  errorEl.textContent = 'Network error. Please try again.';
                   errorEl.classList.remove('hidden');
                 }
-              } catch (err) {
-                errorEl.textContent = 'Network error. Please try again.';
-                errorEl.classList.remove('hidden');
-              }
-            });
+              });
+            })();
           '''),
         ]);
   }

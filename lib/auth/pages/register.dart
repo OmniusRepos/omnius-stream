@@ -131,40 +131,51 @@ class RegisterPage extends StatelessComponent {
               ]),
           // Inline script for form handling
           script(content: '''
-            document.getElementById('register-form')?.addEventListener('submit', async (e) => {
-              e.preventDefault();
-              const errorEl = document.getElementById('register-error');
-              errorEl.classList.add('hidden');
+            (function() {
+              const params = new URLSearchParams(window.location.search);
+              const redirect = params.get('redirect');
 
-              const name = document.getElementById('name').value;
-              const email = document.getElementById('email').value;
-              const password = document.getElementById('password').value;
-              const confirm_password = document.getElementById('confirm-password').value;
-
-              if (password !== confirm_password) {
-                errorEl.textContent = 'Passwords do not match';
-                errorEl.classList.remove('hidden');
-                return;
+              // Pass redirect param to login link
+              if (redirect) {
+                const loginLink = document.querySelector('a[href*="/auth/login"]');
+                if (loginLink) loginLink.href = '/auth/login?redirect=' + encodeURIComponent(redirect);
               }
 
-              try {
-                const res = await fetch('/api/auth/register', {
-                  method: 'POST',
-                  headers: {'Content-Type': 'application/json'},
-                  body: JSON.stringify({name, email, password, confirm_password}),
-                });
-                const data = await res.json();
-                if (res.ok) {
-                  window.location.href = '/app';
-                } else {
-                  errorEl.textContent = data.error || 'Registration failed';
+              document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const errorEl = document.getElementById('register-error');
+                errorEl.classList.add('hidden');
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirm_password = document.getElementById('confirm-password').value;
+
+                if (password !== confirm_password) {
+                  errorEl.textContent = 'Passwords do not match';
+                  errorEl.classList.remove('hidden');
+                  return;
+                }
+
+                try {
+                  const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({name, email, password, confirm_password}),
+                  });
+                  const data = await res.json();
+                  if (res.ok) {
+                    window.location.href = redirect || '/app';
+                  } else {
+                    errorEl.textContent = data.error || 'Registration failed';
+                    errorEl.classList.remove('hidden');
+                  }
+                } catch (err) {
+                  errorEl.textContent = 'Network error. Please try again.';
                   errorEl.classList.remove('hidden');
                 }
-              } catch (err) {
-                errorEl.textContent = 'Network error. Please try again.';
-                errorEl.classList.remove('hidden');
-              }
-            });
+              });
+            })();
           '''),
         ]);
   }

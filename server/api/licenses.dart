@@ -43,9 +43,14 @@ void registerLicensRoutes(DuxtServer server) {
     List<Licens> matchedLicenses = [];
 
     if (checkoutId.isNotEmpty) {
-      // Lookup by Polar order/checkout ID (stored as transaction_id)
+      // Lookup by Polar checkout ID
       matchedLicenses =
-          await licenses.where('transaction_id', checkoutId).where('is_active', 1).get();
+          await licenses.where('checkout_id', checkoutId).where('is_active', 1).get();
+      // Fallback: try transaction_id (order ID) in case checkout_id wasn't stored
+      if (matchedLicenses.isEmpty) {
+        matchedLicenses =
+            await licenses.where('transaction_id', checkoutId).where('is_active', 1).get();
+      }
     } else {
       // Lookup by email → find user → find license
       final matchedUsers = await users.where('email', email).get();

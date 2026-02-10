@@ -144,9 +144,12 @@ void registerPolarRoutes(DuxtServer server) {
       print('[Polar] Missing event data');
       return json({'error': 'Missing event data'}, statusCode: 400);
     }
+    print('[Polar] Event data keys: ${eventData.keys.toList()}');
 
     final orderId = eventData['id'] as String?;
-    print('[Polar] Order ID: $orderId');
+    final checkoutId = eventData['checkout_id'] as String? ??
+        (eventData['checkout'] as Map<String, dynamic>?)?['id'] as String?;
+    print('[Polar] Order ID: $orderId, Checkout ID: $checkoutId');
     if (orderId == null) {
       return json({'error': 'Missing order ID'}, statusCode: 400);
     }
@@ -229,6 +232,7 @@ void registerPolarRoutes(DuxtServer server) {
       max_deployments: maxDeployments,
       is_active: true,
       transaction_id: orderId,
+      checkout_id: checkoutId,
     );
     await license.save();
 

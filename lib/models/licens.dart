@@ -9,6 +9,7 @@ class Licens extends Entity {
   int? max_deployments;
   bool? is_active;
   String? transaction_id;
+  String? checkout_id;
   String? notes;
   String? expires_at;
   DateTime? createdAt;
@@ -22,6 +23,7 @@ class Licens extends Entity {
     this.max_deployments,
     this.is_active,
     this.transaction_id,
+    this.checkout_id,
     this.notes,
     this.expires_at,
     this.createdAt,
@@ -42,6 +44,7 @@ class Licens extends Entity {
         'max_deployments': max_deployments,
         'is_active': is_active == true ? 1 : 0,
         'transaction_id': transaction_id,
+        'checkout_id': checkout_id,
         'notes': notes,
         'expires_at': expires_at,
       };
@@ -54,6 +57,7 @@ class Licens extends Entity {
         max_deployments: row['max_deployments'] as int?,
         is_active: (row['is_active'] as int?) == 1,
         transaction_id: row['transaction_id'] as String?,
+        checkout_id: row['checkout_id'] as String?,
         notes: row['notes'] as String?,
         expires_at: row['expires_at'] as String?,
         createdAt: row['created_at'] != null
@@ -72,6 +76,7 @@ class Licens extends Entity {
         'max_deployments': max_deployments,
         'is_active': is_active,
         'transaction_id': transaction_id,
+        'checkout_id': checkout_id,
         'notes': notes,
         'expires_at': expires_at,
         'createdAt': createdAt?.toIso8601String(),
@@ -89,6 +94,7 @@ class Licens extends Entity {
         'max_deployments': Column.integer().nullable(),
         'is_active': Column.boolean().defaultValue(true),
         'transaction_id': Column.string(100).unique().nullable(),
+        'checkout_id': Column.string(100).nullable(),
         'notes': Column.text().nullable(),
         'expires_at': Column.string(255).nullable(),
         'created_at': Column.dateTime().nullable(),
