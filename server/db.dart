@@ -28,5 +28,25 @@ class Db {
 
     // Run migrations (creates tables)
     await DuxtOrm.migrate();
+
+    // Add missing columns to existing tables (ORM only creates, doesn't alter)
+    await _addMissingColumns();
+  }
+
+  static Future<void> _addMissingColumns() async {
+    final alterStatements = [
+      // Licenses table - columns added after initial creation
+      'ALTER TABLE licenses ADD COLUMN transaction_id TEXT',
+      'ALTER TABLE licenses ADD COLUMN notes TEXT',
+      'ALTER TABLE licenses ADD COLUMN expires_at TEXT',
+    ];
+
+    for (final sql in alterStatements) {
+      try {
+        await DuxtOrm.raw(sql);
+      } catch (_) {
+        // Column already exists — ignore duplicate column error
+      }
+    }
   }
 }
