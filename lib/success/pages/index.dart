@@ -163,10 +163,11 @@ class SuccessPage extends StatelessComponent {
                 function poll() {
                   attempts++;
                   var lookupParam = '';
-                  if (email) {
-                    lookupParam = 'email=' + encodeURIComponent(email);
-                  } else if (checkoutId) {
+                  if (checkoutId) {
                     lookupParam = 'checkout_id=' + encodeURIComponent(checkoutId);
+                    if (email) lookupParam += '&email=' + encodeURIComponent(email);
+                  } else if (email) {
+                    lookupParam = 'email=' + encodeURIComponent(email);
                   }
                   fetch('/api/licenses/lookup?' + lookupParam)
                     .then(r => r.json())

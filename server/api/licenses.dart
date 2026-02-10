@@ -51,15 +51,16 @@ void registerLicensRoutes(DuxtServer server) {
         matchedLicenses =
             await licenses.where('transaction_id', checkoutId).where('is_active', 1).get();
       }
-    } else {
-      // Lookup by email → find user → find license
+    }
+
+    // Fallback to email lookup if checkout_id didn't match
+    if (matchedLicenses.isEmpty && email.isNotEmpty) {
       final matchedUsers = await users.where('email', email).get();
-      if (matchedUsers.isEmpty) {
-        return json({'license': null});
+      if (matchedUsers.isNotEmpty) {
+        final user = matchedUsers.first;
+        matchedLicenses =
+            await licenses.where('user_id', user.id).where('is_active', 1).get();
       }
-      final user = matchedUsers.first;
-      matchedLicenses =
-          await licenses.where('user_id', user.id).where('is_active', 1).get();
     }
 
     if (matchedLicenses.isEmpty) {
