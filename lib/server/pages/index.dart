@@ -1,4 +1,5 @@
 import 'package:duxt_html/duxt_html.dart';
+import 'package:duxt_ui/duxt_ui.dart';
 import 'package:jaspr/jaspr.dart' show StatelessComponent, BuildContext;
 import 'package:jaspr_router/jaspr_router.dart';
 
@@ -71,23 +72,56 @@ class ServerPage extends StatelessComponent {
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6 text-center',
               child: Text('Quick Start')),
-          P(className: 'text-gray-400 mb-4 text-center',
-              child: Text('Download the latest release for your platform and run:')),
-          Div(
-              className: 'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
-              children: [
-                Pre(child:
-                  Code(className: 'text-sm text-gray-300 whitespace-pre',
-                      child: Text(
-                          '# Download from GitHub Releases\n'
-                          'wget https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/omnius-linux-amd64\n'
-                          'chmod +x omnius-linux-amd64\n'
-                          '\n'
-                          '# Run with your license key\n'
-                          'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          'ADMIN_PASSWORD=your_secure_password \\\n'
-                          './omnius-linux-amd64'))),
-              ]),
+          P(className: 'text-gray-400 mb-6 text-center',
+              child: Text('Choose your preferred method:')),
+          DTabs(
+            defaultValue: 'binary',
+            items: [
+              DTabItem(
+                value: 'binary',
+                label: 'Binary',
+                content: Div(children: [
+                  _codeBlock(
+                      '# Download from GitHub Releases\n'
+                      'wget https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/omnius-linux-amd64\n'
+                      'chmod +x omnius-linux-amd64\n'
+                      '\n'
+                      '# Run with your license key\n'
+                      'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      'ADMIN_PASSWORD=your_secure_password \\\n'
+                      './omnius-linux-amd64'),
+                ]),
+              ),
+              DTabItem(
+                value: 'docker',
+                label: 'Docker',
+                content: Div(children: [
+                  _codeBlock(
+                      'docker run -d \\\n'
+                      '  --name omnius \\\n'
+                      '  -p 8080:8080 \\\n'
+                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                      '  -v omnius-data:/app/data \\\n'
+                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                ]),
+              ),
+              DTabItem(
+                value: 'podman',
+                label: 'Podman',
+                content: Div(children: [
+                  _codeBlock(
+                      'podman run -d \\\n'
+                      '  --name omnius \\\n'
+                      '  -p 8080:8080 \\\n'
+                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                      '  -v omnius-data:/app/data \\\n'
+                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                ]),
+              ),
+            ],
+          ),
           Div(className: 'text-center mt-6', children: [
             Link(
               to: '/app/setup',
@@ -137,6 +171,17 @@ class ServerPage extends StatelessComponent {
         ]),
       ]),
     ]);
+  }
+
+  Component _codeBlock(String code) {
+    return Div(
+        className:
+            'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
+        children: [
+          Pre(child:
+            Code(className: 'text-sm text-gray-300 whitespace-pre',
+                child: Text(code))),
+        ]);
   }
 
   Component _featureCard(String title, String desc) {

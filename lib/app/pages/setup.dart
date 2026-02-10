@@ -1,4 +1,5 @@
 import 'package:duxt_html/duxt_html.dart';
+import 'package:duxt_ui/duxt_ui.dart';
 import 'package:jaspr/jaspr.dart' show StatelessComponent, BuildContext;
 import 'package:jaspr_router/jaspr_router.dart';
 
@@ -47,61 +48,90 @@ class SetupPage extends StatelessComponent {
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
               child: Text('2. Run')),
-          P(className: 'text-gray-400 mb-4',
-              child: Text('Make it executable and run with your license key:')),
-          Div(
-              className:
-                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
-              children: [
-                Pre(child:
-                  Code(className: 'text-sm text-gray-300 whitespace-pre',
-                      child: Text(
-                          'chmod +x omnius-linux-amd64\n'
-                          '\n'
-                          'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          'ADMIN_PASSWORD=your_secure_password \\\n'
-                          './omnius-linux-amd64'))),
-              ]),
-          P(className: 'text-gray-400 mt-4',
-              child: Text('The server starts on port 8080 by default. Data is stored in ./data/')),
-
-          // Docker
-          H3(className: 'text-lg font-bold text-white mt-8 mb-4',
-              child: Text('Docker')),
-          Div(
-              className:
-                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
-              children: [
-                Pre(child:
-                  Code(className: 'text-sm text-gray-300 whitespace-pre',
-                      child: Text(
-                          'docker run -d \\\n'
-                          '  --name omnius \\\n'
-                          '  -p 8080:8080 \\\n'
-                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
-                          '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-releases:latest'))),
-              ]),
-
-          // Podman
-          H3(className: 'text-lg font-bold text-white mt-8 mb-4',
-              child: Text('Podman')),
-          Div(
-              className:
-                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
-              children: [
-                Pre(child:
-                  Code(className: 'text-sm text-gray-300 whitespace-pre',
-                      child: Text(
-                          'podman run -d \\\n'
-                          '  --name omnius \\\n'
-                          '  -p 8080:8080 \\\n'
-                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
-                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
-                          '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-releases:latest'))),
-              ]),
+          P(className: 'text-gray-400 mb-6',
+              child: Text('Choose your preferred method to run Omnius:')),
+          DTabs(
+            defaultValue: 'binary',
+            items: [
+              DTabItem(
+                value: 'binary',
+                label: 'Binary',
+                content: Div(children: [
+                  P(className: 'text-gray-400 mb-4',
+                      child: Text('Make it executable and run with your license key:')),
+                  _codeBlock(
+                      'chmod +x omnius-linux-amd64\n'
+                      '\n'
+                      'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      'ADMIN_PASSWORD=your_secure_password \\\n'
+                      './omnius-linux-amd64'),
+                  P(className: 'text-gray-400 mt-4',
+                      child: Text('The server starts on port 8080 by default. Data is stored in ./data/')),
+                ]),
+              ),
+              DTabItem(
+                value: 'docker',
+                label: 'Docker',
+                content: Div(children: [
+                  P(className: 'text-gray-400 mb-4',
+                      child: Text('Run with Docker using the official container image:')),
+                  _codeBlock(
+                      'docker run -d \\\n'
+                      '  --name omnius \\\n'
+                      '  -p 8080:8080 \\\n'
+                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                      '  -v omnius-data:/app/data \\\n'
+                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                  P(className: 'text-gray-400 mt-4',
+                      child: Text('Data is persisted in the omnius-data volume.')),
+                ]),
+              ),
+              DTabItem(
+                value: 'podman',
+                label: 'Podman',
+                content: Div(children: [
+                  P(className: 'text-gray-400 mb-4',
+                      child: Text('Run with Podman — same syntax as Docker, no daemon required:')),
+                  _codeBlock(
+                      'podman run -d \\\n'
+                      '  --name omnius \\\n'
+                      '  -p 8080:8080 \\\n'
+                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                      '  -v omnius-data:/app/data \\\n'
+                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                  P(className: 'text-gray-400 mt-4',
+                      child: Text('Data is persisted in the omnius-data volume.')),
+                ]),
+              ),
+              DTabItem(
+                value: 'compose',
+                label: 'Docker Compose',
+                content: Div(children: [
+                  P(className: 'text-gray-400 mb-4',
+                      child: Text('Create a docker-compose.yml for easier management:')),
+                  _codeBlock(
+                      'services:\n'
+                      '  omnius:\n'
+                      '    image: ghcr.io/omniusrepos/omnius-releases:latest\n'
+                      '    ports:\n'
+                      '      - "8080:8080"\n'
+                      '    environment:\n'
+                      '      - LICENSE_KEY=YOUR_LICENSE_KEY\n'
+                      '      - ADMIN_PASSWORD=your_secure_password\n'
+                      '    volumes:\n'
+                      '      - omnius-data:/app/data\n'
+                      '    restart: unless-stopped\n'
+                      '\n'
+                      'volumes:\n'
+                      '  omnius-data:'),
+                  P(className: 'text-gray-400 mt-4',
+                      child: Text('Run with: docker compose up -d')),
+                ]),
+              ),
+            ],
+          ),
         ]),
       ]),
 
@@ -306,6 +336,17 @@ class SetupPage extends StatelessComponent {
         ]),
       ]),
     ]);
+  }
+
+  Component _codeBlock(String code) {
+    return Div(
+        className:
+            'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
+        children: [
+          Pre(child:
+            Code(className: 'text-sm text-gray-300 whitespace-pre',
+                child: Text(code))),
+        ]);
   }
 
   Component _downloadCard(String platform, String filename, String note) {
