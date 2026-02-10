@@ -29,30 +29,40 @@ void registerLicensRoutes(DuxtServer server) {
         'expires_at': expiresAt ?? '',
       };
 
-  // GET /api/licenses/lookup?email=xxx — public endpoint for success page polling
+  // GET /api/licenses/lookup?email=xxx or ?checkout_id=xxx
+  // Public endpoint for success page polling
   server.get('/api/licenses/lookup', (req) async {
     final email = (req.query('email') ?? '').trim().toLowerCase();
-    if (email.isEmpty) {
-      return json({'error': 'Email parameter required'}, statusCode: 400);
+    final checkoutId = (req.query('checkout_id') ?? '').trim();
+
+    if (email.isEmpty && checkoutId.isEmpty) {
+      return json({'error': 'Email or checkout_id parameter required'},
+          statusCode: 400);
     }
 
-    // Find user by email
-    final matchedUsers = await users.where('email', email).get();
-    if (matchedUsers.isEmpty) {
-      return json({'license': null});
+    List<Licens> matchedLicenses = [];
+
+    if (checkoutId.isNotEmpty) {
+      // Lookup by Polar order/checkout ID (stored as transaction_id)
+      matchedLicenses =
+          await licenses.where('transaction_id', checkoutId).where('is_active', 1).get();
+    } else {
+      // Lookup by email → find user → find license
+      final matchedUsers = await users.where('email', email).get();
+      if (matchedUsers.isEmpty) {
+        return json({'license': null});
+      }
+      final user = matchedUsers.first;
+      matchedLicenses =
+          await licenses.where('user_id', user.id).where('is_active', 1).get();
     }
 
-    final user = matchedUsers.first;
-
-    // Find latest active license for this user
-    final userLicenses =
-        await licenses.where('user_id', user.id).where('is_active', 1).get();
-    if (userLicenses.isEmpty) {
+    if (matchedLicenses.isEmpty) {
       return json({'license': null});
     }
 
     // Return the most recently created license
-    final latest = userLicenses.last;
+    final latest = matchedLicenses.last;
     return json({
       'license': {
         'license_key': latest.license_key,

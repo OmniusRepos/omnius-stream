@@ -167,8 +167,12 @@ void registerPolarRoutes(DuxtServer server) {
     final email =
         (customer?['email'] as String?)?.trim().toLowerCase() ?? '';
     final customerName =
-        customer?['name'] as String? ?? email.split('@').first;
+        customer?['name'] as String? ?? (email.isNotEmpty ? email.split('@').first : 'Unknown');
     print('[Polar] Customer: $email ($customerName)');
+
+    if (email.isEmpty) {
+      print('[Polar] WARNING: No customer email in webhook for order $orderId');
+    }
 
     // Determine plan from product ID
     final product = eventData['product'] as Map<String, dynamic>?;

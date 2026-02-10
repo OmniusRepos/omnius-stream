@@ -148,7 +148,13 @@ class SuccessPage extends StatelessComponent {
 
                 function poll() {
                   attempts++;
-                  fetch('/api/licenses/lookup?email=' + encodeURIComponent(email))
+                  var lookupParam = '';
+                  if (email) {
+                    lookupParam = 'email=' + encodeURIComponent(email);
+                  } else if (checkoutId) {
+                    lookupParam = 'checkout_id=' + encodeURIComponent(checkoutId);
+                  }
+                  fetch('/api/licenses/lookup?' + lookupParam)
                     .then(r => r.json())
                     .then(data => {
                       if (data.license) {
