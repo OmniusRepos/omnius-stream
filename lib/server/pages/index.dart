@@ -80,7 +80,7 @@ class ServerPage extends StatelessComponent {
                   Code(className: 'text-sm text-gray-300 whitespace-pre',
                       child: Text(
                           '# Download from GitHub Releases\n'
-                          'wget https://github.com/OmniusRepos/omnius-releases/releases/latest/download/omnius-linux-amd64\n'
+                          'wget https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/omnius-linux-amd64\n'
                           'chmod +x omnius-linux-amd64\n'
                           '\n'
                           '# Run with your license key\n'

@@ -64,6 +64,44 @@ class SetupPage extends StatelessComponent {
               ]),
           P(className: 'text-gray-400 mt-4',
               child: Text('The server starts on port 8080 by default. Data is stored in ./data/')),
+
+          // Docker
+          H3(className: 'text-lg font-bold text-white mt-8 mb-4',
+              child: Text('Docker')),
+          Div(
+              className:
+                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
+              children: [
+                Pre(child:
+                  Code(className: 'text-sm text-gray-300 whitespace-pre',
+                      child: Text(
+                          'docker run -d \\\n'
+                          '  --name omnius \\\n'
+                          '  -p 8080:8080 \\\n'
+                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                          '  -v omnius-data:/app/data \\\n'
+                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
+              ]),
+
+          // Podman
+          H3(className: 'text-lg font-bold text-white mt-8 mb-4',
+              child: Text('Podman')),
+          Div(
+              className:
+                  'rounded-xl bg-[#0d0d0d] border border-white/10 p-6 overflow-x-auto',
+              children: [
+                Pre(child:
+                  Code(className: 'text-sm text-gray-300 whitespace-pre',
+                      child: Text(
+                          'podman run -d \\\n'
+                          '  --name omnius \\\n'
+                          '  -p 8080:8080 \\\n'
+                          '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                          '  -e ADMIN_PASSWORD=your_secure_password \\\n'
+                          '  -v omnius-data:/app/data \\\n'
+                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
+              ]),
         ]),
       ]),
 
@@ -272,7 +310,7 @@ class SetupPage extends StatelessComponent {
 
   Component _downloadCard(String platform, String filename, String note) {
     return A(
-        href: 'https://github.com/OmniusRepos/omnius-releases/releases/latest/download/$filename',
+        href: 'https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/$filename',
         target: Target.blank,
         className: 'block p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors',
         children: [
