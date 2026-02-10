@@ -8,6 +8,7 @@ import 'package:omnius_stream/models/order.dart';
 import 'package:omnius_stream/models/deployment.dart';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
+import 'email.dart';
 
 /// Lenient base64 decoder that handles unpadded input and non-zero trailing bits
 /// (which Dart's strict base64.decode rejects).
@@ -248,6 +249,18 @@ void registerPolarRoutes(DuxtServer server) {
     await order.save();
 
     print('[Polar] License created: $licenseKey for $email (plan: $plan)');
+
+    // Send license key email to customer
+    if (email.isNotEmpty) {
+      sendLicenseEmail(
+        toEmail: email,
+        customerName: customerName,
+        licenseKey: licenseKey,
+        plan: plan,
+        maxDeployments: maxDeployments,
+      );
+    }
+
     return json({
       'status': 'success',
       'license_key': licenseKey,
