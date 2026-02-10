@@ -81,7 +81,7 @@ class SetupPage extends StatelessComponent {
                           '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                           '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                           '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
+                          '  ghcr.io/omniusrepos/omnius-releases:latest'))),
               ]),
 
           // Podman
@@ -100,7 +100,7 @@ class SetupPage extends StatelessComponent {
                           '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                           '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                           '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
+                          '  ghcr.io/omniusrepos/omnius-releases:latest'))),
               ]),
         ]),
       ]),
