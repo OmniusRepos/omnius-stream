@@ -89,6 +89,12 @@ void registerPolarRoutes(DuxtServer server) {
       });
 
       if (!isValid) {
+        print('[Polar] Signature mismatch!');
+        print('[Polar] rawBody available: ${req.rawBody != null}');
+        print('[Polar] bodyString length: ${bodyString.length}');
+        print('[Polar] Expected: $expectedSignature');
+        print('[Polar] Got signatures: $webhookSignature');
+        print('[Polar] Secret prefix: ${secret.substring(0, 14)}...');
         return json({'error': 'Invalid webhook signature'}, statusCode: 401);
       }
     }
