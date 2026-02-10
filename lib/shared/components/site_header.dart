@@ -21,6 +21,8 @@ class SiteHeader extends StatelessComponent {
               Link(to: '/technology', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Technology'))),
               Link(to: '/pricing', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Pricing'))),
               Link(to: '/compare', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Compare'))),
+              Link(to: '/apps', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Apps'))),
+              Link(to: '/server', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Server'))),
               // Auth link - swapped by JS based on session cookie
               Span(attributes: {'id': 'auth-link'}, children: [
                 Link(to: '/auth/login', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Login'))),

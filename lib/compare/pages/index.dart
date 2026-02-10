@@ -113,8 +113,8 @@ class ComparePage extends StatelessComponent {
                     _row('macOS', ['\u2713', '\u2717', '\u2717', '\u2713', '\u2713', '\u2717']),
                     _row('iOS', ['Roadmap', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Web Player', ['Roadmap', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
-                    _row('Samsung Tizen', ['Roadmap', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
-                    _row('LG WebOS', ['Roadmap', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
+                    _row('Samsung Tizen', ['In Review', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
+                    _row('LG WebOS', ['In Review', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Roku', ['\u2717', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Custom STB Hardware', ['\u2717', '\u2713', '\u2713', '\u2717', '\u2717', '\u2717']),
 

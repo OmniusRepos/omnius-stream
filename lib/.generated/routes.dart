@@ -20,6 +20,8 @@ import '../admin/pages/index.dart' as page_adminpage;
 import '../admin/pages/customers.dart' as page_admincustomerspage;
 import '../admin/pages/licenses.dart' as page_adminlicensespage;
 import '../admin/pages/orders.dart' as page_adminorderspage;
+import '../apps/pages/index.dart' as page_appspage;
+import '../server/pages/index.dart' as page_serverpage;
 
 /// Generated routes from modules
 final generatedRoutes = <Route>[
@@ -123,6 +125,18 @@ final generatedRoutes = <Route>[
     path: '/admin/orders',
     builder: (context, state) {
       return const page_adminorderspage.AdminOrdersPage();
+    },
+  ),
+  Route(
+    path: '/apps',
+    builder: (context, state) {
+      return const page_appspage.AppsPage();
+    },
+  ),
+  Route(
+    path: '/server',
+    builder: (context, state) {
+      return const page_serverpage.ServerPage();
     },
   ),
 ];

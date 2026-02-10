@@ -50,7 +50,7 @@ void main() async {
   });
 
   server.get('/sitemap.xml', (req) {
-    final pages = ['', 'features', 'pricing', 'compare', 'technology', 'terms', 'privacy', 'refund'];
+    final pages = ['', 'features', 'pricing', 'compare', 'technology', 'apps', 'server', 'terms', 'privacy', 'refund'];
     final urls = pages.map((p) =>
       '  <url><loc>https://omnius.stream/$p</loc></url>'
     ).join('\n');
