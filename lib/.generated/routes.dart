@@ -21,6 +21,7 @@ import '../admin/pages/customers.dart' as page_admincustomerspage;
 import '../admin/pages/licenses.dart' as page_adminlicensespage;
 import '../admin/pages/orders.dart' as page_adminorderspage;
 import '../apps/pages/index.dart' as page_appspage;
+import '../apps/pages/download.dart' as page_appsdownloadpage;
 import '../server/pages/index.dart' as page_serverpage;
 
 /// Generated routes from modules
@@ -131,6 +132,12 @@ final generatedRoutes = <Route>[
     path: '/apps',
     builder: (context, state) {
       return const page_appspage.AppsPage();
+    },
+  ),
+  Route(
+    path: '/apps/download',
+    builder: (context, state) {
+      return const page_appsdownloadpage.AppsDownloadPage();
     },
   ),
   Route(

@@ -46,7 +46,6 @@ class AppsPage extends StatelessComponent {
               icon: '\ud83d\udcf1',
               store: 'Google Play',
               status: 'available',
-              url: 'https://play.google.com/store/apps/details?id=lol.omnius.tv',
             ),
           ]),
         ]),
@@ -62,7 +61,6 @@ class AppsPage extends StatelessComponent {
               icon: '\ud83d\udcbb',
               store: 'Direct Download',
               status: 'available',
-              url: 'https://github.com/AmbrosLabs/omnius_releases/releases',
             ),
             _platformCard(
               name: 'iOS',
@@ -105,16 +103,16 @@ class AppsPage extends StatelessComponent {
                   'Apps connect to your self-hosted Omnius server. Deploy with Docker in minutes.')),
           Div(className: 'flex justify-center gap-4 flex-wrap', children: [
             Link(
-              to: '/server',
+              to: '/apps/download',
               child: Span(
                   className: 'px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                  child: Text('Server Setup \u2192')),
+                  child: Text('Download Apps \u2192')),
             ),
-            A(
-              href: 'https://github.com/AmbrosLabs/omnius_releases/releases',
-              className: 'px-8 py-3.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors',
-              attributes: {'target': '_blank', 'rel': 'noopener'},
-              child: Text('Download macOS App'),
+            Link(
+              to: '/server',
+              child: Span(
+                  className: 'px-8 py-3.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors',
+                  child: Text('Server Setup')),
             ),
           ]),
         ]),
@@ -127,7 +125,6 @@ class AppsPage extends StatelessComponent {
     required String icon,
     required String store,
     required String status,
-    String? url,
   }) {
     final isAvailable = status == 'available';
     final isReview = status == 'in_review';
@@ -157,14 +154,6 @@ class AppsPage extends StatelessComponent {
           H3(className: 'text-lg font-bold text-white mb-1', child: Text(name)),
           P(className: 'text-sm text-gray-400 mb-1', child: Text(store)),
           P(className: 'text-xs text-green-400/80', child: Text('Free')),
-          if (isAvailable && url != null)
-            Div(className: 'mt-4', children: [
-              A(
-                  href: url,
-                  className: 'text-sm text-primary-500 hover:text-primary-400 font-medium transition-colors',
-                  attributes: {'target': '_blank', 'rel': 'noopener'},
-                  child: Text('Download \u2192')),
-            ]),
         ]);
   }
 

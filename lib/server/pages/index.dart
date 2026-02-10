@@ -96,8 +96,8 @@ class ServerPage extends StatelessComponent {
         ]),
       ]),
 
-      // CTA
-      Section(className: 'py-20 text-center', children: [
+      // Get Your License
+      Section(className: 'py-16 text-center', children: [
         Div(className: 'max-w-2xl mx-auto px-4', children: [
           H2(
               className: 'text-3xl font-bold text-white mb-4',
@@ -106,20 +106,31 @@ class ServerPage extends StatelessComponent {
               className: 'text-gray-400 mb-8',
               child: Text(
                   'One-time purchase. No subscriptions. Includes all future updates and free client apps.')),
-          Div(className: 'flex justify-center gap-4 flex-wrap', children: [
-            Link(
-              to: '/pricing',
-              child: Span(
-                  className: 'px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                  child: Text('View Pricing \u2192')),
-            ),
-            Link(
-              to: '/apps',
-              child: Span(
-                  className: 'px-8 py-3.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors',
-                  child: Text('Browse Apps')),
-            ),
-          ]),
+          Link(
+            to: '/pricing',
+            child: Span(
+                className: 'px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
+                child: Text('View Pricing \u2192')),
+          ),
+        ]),
+      ]),
+
+      // Looking for Apps?
+      Section(className: 'py-20 text-center bg-[#141414]', children: [
+        Div(className: 'max-w-2xl mx-auto px-4', children: [
+          H2(
+              className: 'text-3xl font-bold text-white mb-4',
+              child: Text('Looking for Apps?')),
+          P(
+              className: 'text-gray-400 mb-8',
+              child: Text(
+                  'Free native apps for Android TV, macOS, LG webOS, Samsung Tizen, and more.')),
+          Link(
+            to: '/apps',
+            child: Span(
+                className: 'px-8 py-3.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors',
+                child: Text('Browse Apps \u2192')),
+          ),
         ]),
       ]),
     ]);
