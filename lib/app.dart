@@ -19,7 +19,7 @@ class App extends StatelessComponent {
 
     final wrappedRoutes = routes.map((route) {
       // Routes under /app use the DashboardLayout
-      final isDashboard = route.path.startsWith('/app');
+      final isDashboard = route.path == '/app' || route.path.startsWith('/app/');
       // Admin sub-pages (customers, licenses, orders) use AdminLayout
       // But /admin itself (login page) uses DefaultLayout
       final isAdminSubpage = route.path.startsWith('/admin/');

@@ -5,24 +5,23 @@ import 'package:jaspr_router/jaspr_router.dart';
 
 import '../home/pages/index.dart' as page_homepage;
 import '../app/pages/index.dart' as page_appdashboardpage;
+import '../apps/pages/index.dart' as page_appspage;
 import '../terms/pages/index.dart' as page_termspage;
-import '../app/pages/setup.dart' as page_setuppage;
+import '../admin/pages/index.dart' as page_adminpage;
+import '../server/pages/index.dart' as page_serverpage;
 import '../refund/pages/index.dart' as page_refundpage;
 import '../privacy/pages/index.dart' as page_privacypage;
 import '../success/pages/index.dart' as page_successpage;
 import '../compare/pages/index.dart' as page_comparepage;
 import '../pricing/pages/index.dart' as page_pricingpage;
 import '../features/pages/index.dart' as page_featurespage;
+import '../app/pages/setup.dart' as page_setuppage;
 import '../technology/pages/index.dart' as page_technologypage;
 import '../auth/pages/login.dart' as page_loginpage;
-import '../auth/pages/register.dart' as page_registerpage;
-import '../admin/pages/index.dart' as page_adminpage;
-import '../admin/pages/customers.dart' as page_admincustomerspage;
-import '../admin/pages/licenses.dart' as page_adminlicensespage;
 import '../admin/pages/orders.dart' as page_adminorderspage;
-import '../apps/pages/index.dart' as page_appspage;
-import '../apps/pages/download.dart' as page_appsdownloadpage;
-import '../server/pages/index.dart' as page_serverpage;
+import '../auth/pages/register.dart' as page_registerpage;
+import '../admin/pages/licenses.dart' as page_adminlicensespage;
+import '../admin/pages/customers.dart' as page_admincustomerspage;
 
 /// Generated routes from modules
 final generatedRoutes = <Route>[
@@ -39,15 +38,27 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
+    path: '/apps',
+    builder: (context, state) {
+      return const page_appspage.AppsPage();
+    },
+  ),
+  Route(
     path: '/terms',
     builder: (context, state) {
       return const page_termspage.TermsPage();
     },
   ),
   Route(
-    path: '/app/setup',
+    path: '/admin',
     builder: (context, state) {
-      return const page_setuppage.SetupPage();
+      return const page_adminpage.AdminPage();
+    },
+  ),
+  Route(
+    path: '/server',
+    builder: (context, state) {
+      return const page_serverpage.ServerPage();
     },
   ),
   Route(
@@ -87,6 +98,12 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
+    path: '/app/setup',
+    builder: (context, state) {
+      return const page_setuppage.SetupPage();
+    },
+  ),
+  Route(
     path: '/technology',
     builder: (context, state) {
       return const page_technologypage.TechnologyPage();
@@ -99,21 +116,15 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
+    path: '/admin/orders',
+    builder: (context, state) {
+      return const page_adminorderspage.AdminOrdersPage();
+    },
+  ),
+  Route(
     path: '/auth/register',
     builder: (context, state) {
       return const page_registerpage.RegisterPage();
-    },
-  ),
-  Route(
-    path: '/admin',
-    builder: (context, state) {
-      return const page_adminpage.AdminPage();
-    },
-  ),
-  Route(
-    path: '/admin/customers',
-    builder: (context, state) {
-      return const page_admincustomerspage.AdminCustomersPage();
     },
   ),
   Route(
@@ -123,27 +134,9 @@ final generatedRoutes = <Route>[
     },
   ),
   Route(
-    path: '/admin/orders',
+    path: '/admin/customers',
     builder: (context, state) {
-      return const page_adminorderspage.AdminOrdersPage();
-    },
-  ),
-  Route(
-    path: '/apps',
-    builder: (context, state) {
-      return const page_appspage.AppsPage();
-    },
-  ),
-  Route(
-    path: '/apps/download',
-    builder: (context, state) {
-      return const page_appsdownloadpage.AppsDownloadPage();
-    },
-  ),
-  Route(
-    path: '/server',
-    builder: (context, state) {
-      return const page_serverpage.ServerPage();
+      return const page_admincustomerspage.AdminCustomersPage();
     },
   ),
 ];
