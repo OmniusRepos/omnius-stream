@@ -42,6 +42,10 @@ void registerPolarRoutes(DuxtServer server) {
       } else if (rawSecret.startsWith('polar_whs_')) {
         rawSecret = rawSecret.substring(10);
       }
+      // Pad base64 if needed (Polar secrets may omit padding)
+      while (rawSecret.length % 4 != 0) {
+        rawSecret += '=';
+      }
       final secretKey = base64.decode(rawSecret);
 
       // Construct signed content: {msg_id}.{timestamp}.{body}

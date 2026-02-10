@@ -3,6 +3,7 @@ import 'package:duxt_orm/duxt_orm.dart';
 import 'package:omnius_stream/models/user.dart';
 import 'package:omnius_stream/models/licens.dart';
 import 'package:omnius_stream/models/order.dart';
+import 'package:omnius_stream/models/deployment.dart';
 
 class Db {
   static Future<void> init() async {
@@ -10,6 +11,7 @@ class Db {
     User.register();
     Licens.register();
     Order.register();
+    Deployment.register();
 
     // Initialize ORM with SQLite
     final dataDir = Platform.environment['DATA_DIR'] ?? '.';
