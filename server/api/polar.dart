@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:duxt/server.dart';
 import 'package:duxt_orm/duxt_orm.dart';
 import 'package:omnius_stream/models/user.dart';
@@ -7,14 +8,39 @@ import 'package:omnius_stream/models/order.dart';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 
+/// Lenient base64 decoder that handles unpadded input and non-zero trailing bits
+/// (which Dart's strict base64.decode rejects).
+Uint8List _base64DecodeLenient(String input) {
+  input = input.replaceAll('-', '+').replaceAll('_', '/');
+  input = input.replaceAll('=', '');
+  const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  final bytes = <int>[];
+  var buffer = 0;
+  var bitsCollected = 0;
+  for (var i = 0; i < input.length; i++) {
+    final value = chars.indexOf(input[i]);
+    if (value < 0) continue;
+    buffer = (buffer << 6) | value;
+    bitsCollected += 6;
+    if (bitsCollected >= 8) {
+      bitsCollected -= 8;
+      bytes.add((buffer >> bitsCollected) & 0xFF);
+    }
+  }
+  return Uint8List.fromList(bytes);
+}
+
 void registerPolarRoutes(DuxtServer server) {
   final users = Model<User>();
   final licenses = Model<Licens>();
 
   // POST /api/polar/webhook
   server.post('/api/polar/webhook', (req) async {
+    print('[Polar] Webhook received');
     final body = req.body;
     if (body == null) {
+      print('[Polar] Empty body');
       return json({'error': 'Empty body'}, statusCode: 400);
     }
 
@@ -42,11 +68,8 @@ void registerPolarRoutes(DuxtServer server) {
       } else if (rawSecret.startsWith('polar_whs_')) {
         rawSecret = rawSecret.substring(10);
       }
-      // Pad base64 if needed (Polar secrets may omit padding)
-      while (rawSecret.length % 4 != 0) {
-        rawSecret += '=';
-      }
-      final secretKey = base64.decode(rawSecret);
+      // Lenient base64 decode (handles unpadded + non-zero trailing bits)
+      final secretKey = _base64DecodeLenient(rawSecret);
 
       // Construct signed content: {msg_id}.{timestamp}.{body}
       final signedContent = '$webhookId.$webhookTimestamp.$bodyString';
@@ -70,17 +93,21 @@ void registerPolarRoutes(DuxtServer server) {
 
     final data = body as Map<String, dynamic>;
     final eventType = data['type'] as String?;
+    print('[Polar] Event type: $eventType');
 
     if (eventType != 'order.paid') {
+      print('[Polar] Ignoring event: $eventType');
       return json({'status': 'ignored', 'event': eventType});
     }
 
     final eventData = data['data'] as Map<String, dynamic>?;
     if (eventData == null) {
+      print('[Polar] Missing event data');
       return json({'error': 'Missing event data'}, statusCode: 400);
     }
 
     final orderId = eventData['id'] as String?;
+    print('[Polar] Order ID: $orderId');
     if (orderId == null) {
       return json({'error': 'Missing order ID'}, statusCode: 400);
     }
@@ -89,6 +116,7 @@ void registerPolarRoutes(DuxtServer server) {
     final existingLicenses =
         await licenses.where('transaction_id', orderId).get();
     if (existingLicenses.isNotEmpty) {
+      print('[Polar] Already processed: ${existingLicenses.first.license_key}');
       return json({
         'status': 'already_processed',
         'license_key': existingLicenses.first.license_key,
@@ -101,6 +129,7 @@ void registerPolarRoutes(DuxtServer server) {
         (customer?['email'] as String?)?.trim().toLowerCase() ?? '';
     final customerName =
         customer?['name'] as String? ?? email.split('@').first;
+    print('[Polar] Customer: $email ($customerName)');
 
     // Determine plan from product ID
     final product = eventData['product'] as Map<String, dynamic>?;
@@ -126,6 +155,7 @@ void registerPolarRoutes(DuxtServer server) {
       plan = 'personal';
       maxDeployments = 1;
     }
+    print('[Polar] Plan: $plan (product: $productId), maxDeployments: $maxDeployments');
 
     // Extract amount
     final amountRaw = eventData['amount'] as int? ?? 0;
@@ -170,6 +200,7 @@ void registerPolarRoutes(DuxtServer server) {
     );
     await order.save();
 
+    print('[Polar] License created: $licenseKey for $email (plan: $plan)');
     return json({
       'status': 'success',
       'license_key': licenseKey,

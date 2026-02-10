@@ -5,6 +5,7 @@ import 'api/auth.dart';
 import 'api/licenses.dart';
 import 'api/polar.dart';
 import 'api/dashboard.dart';
+import 'api/admin.dart';
 
 void main() async {
   // Initialize ORM and run migrations
@@ -22,6 +23,7 @@ void main() async {
   registerLicensRoutes(server);
   registerPolarRoutes(server);
   registerDashboardRoutes(server);
+  registerAdminRoutes(server);
 
   server.start();
 }
