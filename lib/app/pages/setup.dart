@@ -39,7 +39,7 @@ class SetupPage extends StatelessComponent {
                           '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                           '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                           '  -v omnius-data:/app/data \\\n'
-                          '  ghcr.io/omnius-stream/server:latest'))),
+                          '  ghcr.io/omniusrepos/omnius-server:latest'))),
               ]),
         ]),
       ]),
@@ -60,7 +60,7 @@ class SetupPage extends StatelessComponent {
                       child: Text(
                           'services:\n'
                           '  omnius:\n'
-                          '    image: ghcr.io/omnius-stream/server:latest\n'
+                          '    image: ghcr.io/omniusrepos/omnius-server:latest\n'
                           '    ports:\n'
                           '      - "8080:8080"\n'
                           '    environment:\n'
