@@ -12,7 +12,11 @@ class SiteFooter extends StatelessComponent {
       child: Div(
         className: 'max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4',
         children: [
-          P(className: 'text-sm text-gray-500', child: Text('Omnius \u00a9 2026. All rights reserved.')),
+          P(className: 'text-sm text-gray-500', children: [
+            Text('\u00a9 2026 '),
+            A(href: 'https://basecode.al', className: 'text-gray-400 hover:text-white transition-colors', attributes: {'target': '_blank', 'rel': 'noopener'}, child: Text('Basecode LLC')),
+            Text('. All rights reserved.'),
+          ]),
           Div(className: 'flex items-center gap-6', children: [
             Link(to: '/terms', child: Span(className: 'text-sm text-gray-500 hover:text-gray-300 transition-colors', child: Text('Terms'))),
             Link(to: '/privacy', child: Span(className: 'text-sm text-gray-500 hover:text-gray-300 transition-colors', child: Text('Privacy'))),

@@ -103,6 +103,7 @@ void registerLicensRoutes(DuxtServer server) {
     final fingerprint = (body['machine_fingerprint'] as String?)?.trim() ?? '';
     final machineLabel = (body['machine_label'] as String?)?.trim() ?? '';
     final serverVersion = (body['server_version'] as String?)?.trim() ?? '';
+    final domain = (body['domain'] as String?)?.trim() ?? '';
 
     if (licenseKey.isEmpty) {
       return json(
@@ -172,6 +173,7 @@ void registerLicensRoutes(DuxtServer server) {
         dep.machine_label = machineLabel;
         dep.server_version = serverVersion;
         dep.ip_address = ipAddress;
+        if (domain.isNotEmpty) dep.domain = domain;
         dep.last_seen_at = DateTime.now();
         dep.is_active = true;
         await dep.save();
@@ -196,6 +198,7 @@ void registerLicensRoutes(DuxtServer server) {
           machine_label: machineLabel,
           server_version: serverVersion,
           ip_address: ipAddress,
+          domain: domain.isNotEmpty ? domain : null,
           is_active: true,
           last_seen_at: DateTime.now(),
         );
@@ -228,6 +231,7 @@ void registerLicensRoutes(DuxtServer server) {
     final licenseKey = (body['license_key'] as String?)?.trim() ?? '';
     final fingerprint = (body['machine_fingerprint'] as String?)?.trim() ?? '';
     final serverVersion = (body['server_version'] as String?)?.trim() ?? '';
+    final domain = (body['domain'] as String?)?.trim() ?? '';
 
     if (licenseKey.isEmpty) {
       return json(
@@ -284,6 +288,7 @@ void registerLicensRoutes(DuxtServer server) {
         final dep = existingDeployments.first;
         dep.last_seen_at = DateTime.now();
         dep.server_version = serverVersion;
+        if (domain.isNotEmpty) dep.domain = domain;
         await dep.save();
       }
     }

@@ -5,6 +5,7 @@ import 'package:duxt_orm/duxt_orm.dart';
 import 'package:omnius_stream/models/user.dart';
 import 'package:omnius_stream/models/licens.dart';
 import 'package:omnius_stream/models/order.dart';
+import 'package:omnius_stream/models/deployment.dart';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 
@@ -34,6 +35,7 @@ Uint8List _base64DecodeLenient(String input) {
 void registerPolarRoutes(DuxtServer server) {
   final users = Model<User>();
   final licenses = Model<Licens>();
+  final deployments = Model<Deployment>();
 
   // POST /api/polar/webhook
   server.post('/api/polar/webhook', (req) async {
@@ -94,6 +96,43 @@ void registerPolarRoutes(DuxtServer server) {
     final data = body as Map<String, dynamic>;
     final eventType = data['type'] as String?;
     print('[Polar] Event type: $eventType');
+
+    // Handle order.refunded — revoke license and deactivate deployments
+    if (eventType == 'order.refunded') {
+      final eventData = data['data'] as Map<String, dynamic>?;
+      final orderId = eventData?['id'] as String?;
+      if (orderId == null) {
+        return json({'error': 'Missing order ID'}, statusCode: 400);
+      }
+
+      print('[Polar] Processing refund for order: $orderId');
+
+      final refundedLicenses =
+          await licenses.where('transaction_id', orderId).get();
+      if (refundedLicenses.isEmpty) {
+        print('[Polar] No license found for refunded order: $orderId');
+        return json({'status': 'no_license_found', 'order_id': orderId});
+      }
+
+      final license = refundedLicenses.first;
+      license.is_active = false;
+      await license.save();
+
+      // Deactivate all deployments for this license
+      final licenseDeployments =
+          await deployments.where('license_id', license.id).where('is_active', 1).get();
+      for (final dep in licenseDeployments) {
+        dep.is_active = false;
+        await dep.save();
+      }
+
+      print('[Polar] Refund processed: license ${license.license_key} deactivated, ${licenseDeployments.length} deployments deactivated');
+      return json({
+        'status': 'refund_processed',
+        'license_key': license.license_key,
+        'deployments_deactivated': licenseDeployments.length,
+      });
+    }
 
     if (eventType != 'order.paid') {
       print('[Polar] Ignoring event: $eventType');

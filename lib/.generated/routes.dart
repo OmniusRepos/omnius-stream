@@ -17,6 +17,9 @@ import '../technology/pages/index.dart' as page_technologypage;
 import '../auth/pages/login.dart' as page_loginpage;
 import '../auth/pages/register.dart' as page_registerpage;
 import '../admin/pages/index.dart' as page_adminpage;
+import '../admin/pages/customers.dart' as page_admincustomerspage;
+import '../admin/pages/licenses.dart' as page_adminlicensespage;
+import '../admin/pages/orders.dart' as page_adminorderspage;
 
 /// Generated routes from modules
 final generatedRoutes = <Route>[
@@ -102,6 +105,24 @@ final generatedRoutes = <Route>[
     path: '/admin',
     builder: (context, state) {
       return const page_adminpage.AdminPage();
+    },
+  ),
+  Route(
+    path: '/admin/customers',
+    builder: (context, state) {
+      return const page_admincustomerspage.AdminCustomersPage();
+    },
+  ),
+  Route(
+    path: '/admin/licenses',
+    builder: (context, state) {
+      return const page_adminlicensespage.AdminLicensesPage();
+    },
+  ),
+  Route(
+    path: '/admin/orders',
+    builder: (context, state) {
+      return const page_adminorderspage.AdminOrdersPage();
     },
   ),
 ];

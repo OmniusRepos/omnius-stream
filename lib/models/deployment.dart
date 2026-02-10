@@ -7,6 +7,7 @@ class Deployment extends Entity {
   String? machine_label;
   String? server_version;
   String? ip_address;
+  String? domain;
   bool? is_active;
   DateTime? last_seen_at;
   DateTime? createdAt;
@@ -19,6 +20,7 @@ class Deployment extends Entity {
     this.machine_label,
     this.server_version,
     this.ip_address,
+    this.domain,
     this.is_active,
     this.last_seen_at,
     this.createdAt,
@@ -38,6 +40,7 @@ class Deployment extends Entity {
         'machine_label': machine_label,
         'server_version': server_version,
         'ip_address': ip_address,
+        'domain': domain,
         'is_active': is_active == true ? 1 : 0,
         'last_seen_at': last_seen_at?.toIso8601String(),
       };
@@ -49,6 +52,7 @@ class Deployment extends Entity {
         machine_label: row['machine_label'] as String?,
         server_version: row['server_version'] as String?,
         ip_address: row['ip_address'] as String?,
+        domain: row['domain'] as String?,
         is_active: (row['is_active'] as int?) == 1,
         last_seen_at: row['last_seen_at'] != null
             ? DateTime.tryParse(row['last_seen_at'] as String)
@@ -68,6 +72,7 @@ class Deployment extends Entity {
         'machine_label': machine_label,
         'server_version': server_version,
         'ip_address': ip_address,
+        'domain': domain,
         'is_active': is_active,
         'last_seen_at': last_seen_at?.toIso8601String(),
         'createdAt': createdAt?.toIso8601String(),
@@ -84,6 +89,7 @@ class Deployment extends Entity {
         'machine_label': Column.string(255).nullable(),
         'server_version': Column.string(50).nullable(),
         'ip_address': Column.string(100).nullable(),
+        'domain': Column.string(255).nullable(),
         'is_active': Column.boolean().defaultValue(true),
         'last_seen_at': Column.string(255).nullable(),
         'created_at': Column.dateTime().nullable(),
