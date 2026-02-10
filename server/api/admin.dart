@@ -472,4 +472,114 @@ void registerAdminRoutes(DuxtServer server) {
 
     return json(result);
   });
+
+  // POST /api/admin/polar/sync — sync a Polar order to local DB (create user + license + order)
+  //   Body: { "order_id": "polar-order-uuid" }
+  server.post('/api/admin/polar/sync', (req) async {
+    if (!_isAdmin(req.headers)) {
+      return json({'error': 'Unauthorized'}, statusCode: 401);
+    }
+
+    final body = req.body as Map<String, dynamic>?;
+    final orderId = (body?['order_id'] as String?)?.trim() ?? '';
+    if (orderId.isEmpty) {
+      return json({'error': 'order_id is required'}, statusCode: 400);
+    }
+
+    // Check if already synced
+    final existingLicenses = await licenses.where('transaction_id', orderId).get();
+    if (existingLicenses.isNotEmpty) {
+      return json({
+        'status': 'already_synced',
+        'license_key': existingLicenses.first.license_key,
+      });
+    }
+
+    // Fetch order from Polar API
+    final orderData = await _polarApiFetch('/orders/$orderId');
+    if (orderData == null) {
+      return json({'error': 'Failed to fetch order from Polar'}, statusCode: 503);
+    }
+
+    // Extract customer info
+    final customer = orderData['customer'] as Map<String, dynamic>?;
+    final email = (customer?['email'] as String?)?.trim().toLowerCase() ?? '';
+    final customerName = customer?['name'] as String? ?? email.split('@').first;
+
+    if (email.isEmpty) {
+      return json({'error': 'Order has no customer email'}, statusCode: 400);
+    }
+
+    // Determine plan from product
+    final product = orderData['product'] as Map<String, dynamic>?;
+    final productId = product?['id'] as String? ?? '';
+
+    final personalProductId = Platform.environment['POLAR_PERSONAL_PRODUCT_ID'] ?? '';
+    final businessProductId = Platform.environment['POLAR_BUSINESS_PRODUCT_ID'] ?? '';
+    final enterpriseProductId = Platform.environment['POLAR_ENTERPRISE_PRODUCT_ID'] ?? '';
+
+    String plan = 'personal';
+    int maxDeployments = 1;
+
+    if (productId == enterpriseProductId) {
+      plan = 'enterprise';
+      maxDeployments = 999;
+    } else if (productId == businessProductId) {
+      plan = 'business';
+      maxDeployments = 5;
+    } else if (productId == personalProductId) {
+      plan = 'personal';
+      maxDeployments = 1;
+    }
+
+    // Extract amount
+    final amountRaw = orderData['amount'] as int? ?? 0;
+    final amount = (amountRaw / 100).toStringAsFixed(2);
+    final currency = (orderData['currency'] as String? ?? 'usd').toUpperCase();
+
+    // Find or create user
+    User user;
+    final existingUsers = await users.where('email', email).get();
+    if (existingUsers.isNotEmpty) {
+      user = existingUsers.first;
+    } else {
+      user = User(
+        email: email,
+        name: customerName,
+        password_hash: User.hashPassword(orderId),
+        is_active: true,
+      );
+      await user.save();
+    }
+
+    // Generate license
+    final licenseKey = Licens.generateKey();
+    final license = Licens(
+      license_key: licenseKey,
+      user_id: user.id as int,
+      plan: plan,
+      max_deployments: maxDeployments,
+      is_active: true,
+      transaction_id: orderId,
+    );
+    await license.save();
+
+    // Create order record
+    final order = Order(
+      user_id: user.id as int,
+      license_id: license.id as int,
+      transaction_id: orderId,
+      amount: amount,
+      currency: currency,
+      status: 'completed',
+    );
+    await order.save();
+
+    return json({
+      'status': 'synced',
+      'license_key': licenseKey,
+      'plan': plan,
+      'email': email,
+    }, statusCode: 201);
+  });
 }
