@@ -532,8 +532,8 @@ void registerAdminRoutes(DuxtServer server) {
       maxDeployments = 1;
     }
 
-    // Extract amount
-    final amountRaw = orderData['amount'] as int? ?? 0;
+    // Extract amount (Polar uses total_amount, not amount)
+    final amountRaw = orderData['total_amount'] as int? ?? orderData['amount'] as int? ?? 0;
     final amount = (amountRaw / 100).toStringAsFixed(2);
     final currency = (orderData['currency'] as String? ?? 'usd').toUpperCase();
 
@@ -552,17 +552,37 @@ void registerAdminRoutes(DuxtServer server) {
       await user.save();
     }
 
-    // Generate license
-    final licenseKey = Licens.generateKey();
-    final license = Licens(
-      license_key: licenseKey,
-      user_id: user.id as int,
-      plan: plan,
-      max_deployments: maxDeployments,
-      is_active: true,
-      transaction_id: orderId,
-    );
-    await license.save();
+    // Check if user already has a license without a transaction_id — update it
+    // instead of creating a duplicate
+    final userLicenses = await licenses.where('user_id', user.id).get();
+    final unlinked = userLicenses.where((l) =>
+        l.transaction_id == null || l.transaction_id!.isEmpty).toList();
+
+    Licens license;
+    String licenseKey;
+
+    if (unlinked.isNotEmpty) {
+      // Update existing unlinked license
+      license = unlinked.first;
+      license.plan = plan;
+      license.max_deployments = maxDeployments;
+      license.is_active = true;
+      license.transaction_id = orderId;
+      await license.save();
+      licenseKey = license.license_key ?? '';
+    } else {
+      // Create new license
+      licenseKey = Licens.generateKey();
+      license = Licens(
+        license_key: licenseKey,
+        user_id: user.id as int,
+        plan: plan,
+        max_deployments: maxDeployments,
+        is_active: true,
+        transaction_id: orderId,
+      );
+      await license.save();
+    }
 
     // Create order record
     final order = Order(

@@ -197,7 +197,7 @@ void registerPolarRoutes(DuxtServer server) {
     print('[Polar] Plan: $plan (product: $productId), maxDeployments: $maxDeployments');
 
     // Extract amount
-    final amountRaw = eventData['amount'] as int? ?? 0;
+    final amountRaw = eventData['total_amount'] as int? ?? eventData['amount'] as int? ?? 0;
     final amount = (amountRaw / 100).toStringAsFixed(2);
     final currency = (eventData['currency'] as String? ?? 'usd').toUpperCase();
 
