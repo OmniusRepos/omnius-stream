@@ -11,6 +11,7 @@ class Licens extends Entity {
   String? transaction_id;
   String? checkout_id;
   String? notes;
+  String? features; // comma-separated feature flags (e.g. "live_channels")
   String? expires_at;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -25,6 +26,7 @@ class Licens extends Entity {
     this.transaction_id,
     this.checkout_id,
     this.notes,
+    this.features,
     this.expires_at,
     this.createdAt,
     this.updatedAt,
@@ -46,6 +48,7 @@ class Licens extends Entity {
         'transaction_id': transaction_id,
         'checkout_id': checkout_id,
         'notes': notes,
+        'features': features,
         'expires_at': expires_at,
       };
 
@@ -59,6 +62,7 @@ class Licens extends Entity {
         transaction_id: row['transaction_id'] as String?,
         checkout_id: row['checkout_id'] as String?,
         notes: row['notes'] as String?,
+        features: row['features'] as String?,
         expires_at: row['expires_at'] as String?,
         createdAt: row['created_at'] != null
             ? DateTime.tryParse(row['created_at'] as String)
@@ -78,6 +82,7 @@ class Licens extends Entity {
         'transaction_id': transaction_id,
         'checkout_id': checkout_id,
         'notes': notes,
+        'features': features,
         'expires_at': expires_at,
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
@@ -96,6 +101,7 @@ class Licens extends Entity {
         'transaction_id': Column.string(100).unique().nullable(),
         'checkout_id': Column.string(100).nullable(),
         'notes': Column.text().nullable(),
+        'features': Column.text().nullable(),
         'expires_at': Column.string(255).nullable(),
         'created_at': Column.dateTime().nullable(),
         'updated_at': Column.dateTime().nullable(),
@@ -105,11 +111,46 @@ class Licens extends Entity {
 
   /// Generate a license key in format OMNI-XXXX-XXXX-XXXX-XXXX
   static String generateKey() {
+    return _generateKeyWithPrefix('OMNI', 4);
+  }
+
+  /// Generate an enterprise live key in format OMNI-LIVE-XXXX-XXXX
+  static String generateLiveKey() {
+    return _generateKeyWithPrefix('OMNI-LIVE', 2);
+  }
+
+  static String _generateKeyWithPrefix(String prefix, int segmentCount) {
     final random = Random.secure();
-    final chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no ambiguous: 0/O, 1/I/L
     String segment() =>
         List.generate(4, (_) => chars[random.nextInt(chars.length)]).join();
-    return 'OMNI-${segment()}-${segment()}-${segment()}-${segment()}';
+    final segments = List.generate(segmentCount, (_) => segment()).join('-');
+    return '$prefix-$segments';
+  }
+
+  /// Check if a license key is a live-enabled enterprise key
+  static bool isLiveKey(String key) => key.startsWith('OMNI-LIVE-');
+
+  /// Returns the default features for a plan
+  static List<String> planFeatures(String plan) {
+    switch (plan) {
+      case 'enterprise':
+        return ['live_channels'];
+      default:
+        return [];
+    }
+  }
+
+  /// Get the features list from this license
+  List<String> get featuresList {
+    if (features != null && features!.isNotEmpty) {
+      return features!.split(',');
+    }
+    // Fallback: detect from key format or plan
+    if (license_key != null && isLiveKey(license_key!)) {
+      return ['live_channels'];
+    }
+    return planFeatures(plan ?? 'personal');
   }
 
   String get displayLabel => license_key ?? 'ID: $id';

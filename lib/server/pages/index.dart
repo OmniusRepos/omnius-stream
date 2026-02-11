@@ -28,7 +28,7 @@ class ServerPage extends StatelessComponent {
           H2(className: 'text-2xl font-bold text-white mb-8 text-center',
               child: Text('Everything in One Binary')),
           Div(className: 'grid md:grid-cols-2 lg:grid-cols-3 gap-6', children: [
-            _featureCard('Admin Panel', 'Manage movies, series, live streams, EPG, and user accounts from a web interface.'),
+            _featureCard('Admin Panel', 'Manage movies, series, curated lists, and user accounts from a web interface.'),
             _featureCard('REST API', 'Full JSON API for client apps. HLS, DASH, and progressive HTTP streaming.'),
             _featureCard('Embedded Database', 'SQLite — no external database required. Zero dependencies.'),
             _featureCard('M3U Import', 'Import existing channel playlists. Works with any M3U/M3U8 source.'),

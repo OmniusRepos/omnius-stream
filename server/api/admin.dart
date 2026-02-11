@@ -221,13 +221,19 @@ void registerAdminRoutes(DuxtServer server) {
       }
     }
 
+    // Enterprise gets OMNI-LIVE key with live_channels feature
+    final isEnterprise = plan == 'enterprise';
+    final licenseKey = isEnterprise ? Licens.generateLiveKey() : Licens.generateKey();
+    final licenseFeatures = Licens.planFeatures(plan).join(',');
+
     final license = Licens(
-      license_key: Licens.generateKey(),
+      license_key: licenseKey,
       user_id: userId,
       plan: plan,
       max_deployments: maxDeployments,
       is_active: true,
       notes: notes,
+      features: licenseFeatures.isNotEmpty ? licenseFeatures : null,
       expires_at: expiresAt,
     );
     await license.save();
@@ -561,6 +567,8 @@ void registerAdminRoutes(DuxtServer server) {
     Licens license;
     String licenseKey;
 
+    final syncFeatures = Licens.planFeatures(plan).join(',');
+
     if (unlinked.isNotEmpty) {
       // Update existing unlinked license
       license = unlinked.first;
@@ -568,11 +576,12 @@ void registerAdminRoutes(DuxtServer server) {
       license.max_deployments = maxDeployments;
       license.is_active = true;
       license.transaction_id = orderId;
+      license.features = syncFeatures.isNotEmpty ? syncFeatures : null;
       await license.save();
       licenseKey = license.license_key ?? '';
     } else {
-      // Create new license
-      licenseKey = Licens.generateKey();
+      // Create new license — enterprise gets OMNI-LIVE key
+      licenseKey = plan == 'enterprise' ? Licens.generateLiveKey() : Licens.generateKey();
       license = Licens(
         license_key: licenseKey,
         user_id: user.id as int,
@@ -580,6 +589,7 @@ void registerAdminRoutes(DuxtServer server) {
         max_deployments: maxDeployments,
         is_active: true,
         transaction_id: orderId,
+        features: syncFeatures.isNotEmpty ? syncFeatures : null,
       );
       await license.save();
     }

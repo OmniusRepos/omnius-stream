@@ -49,12 +49,6 @@ class FeaturesPage extends StatelessComponent {
           'Browse by genre, rating, year, or search directly. Infinite scroll keeps content loading as you explore.',
     },
     {
-      'icon': '\u{1f4e1}',
-      'title': 'Live Streaming (8,600+ Sources)',
-      'desc':
-          'Program guide with playlist import and auto-discovery. Health monitoring ensures streams stay active and responsive.',
-    },
-    {
       'icon': '\u{1f3ac}',
       'title': 'Series & Episodes',
       'desc':

@@ -103,8 +103,6 @@ class HomePage extends StatelessComponent {
                 'SubDL integration with automatic subtitle fetching.'),
             _featureCard('Continue Watching',
                 'Automatic progress tracking across sessions.'),
-            _featureCard('Live Content',
-                'Support for 8,600+ live sources with program guide and playlist import.'),
             _featureCard('Admin Panel',
                 'Full content management with API docs built in.'),
             _featureCard('Distributed Delivery',
@@ -143,15 +141,13 @@ class HomePage extends StatelessComponent {
                 child: Text('Powerful Admin Panel')),
             P(className: 'text-gray-400 max-w-xl mx-auto',
                 child: Text(
-                    'Manage your movie catalog, series, live streams, and curated collections with a modern web interface.')),
+                    'Manage your movie catalog, series, and curated collections with a modern web interface.')),
           ]),
           Div(className: 'grid md:grid-cols-2 gap-6', children: [
             _screenshot(
                 '/screenshots/admin-home-sections.webp', 'Home Sections'),
             _screenshot('/screenshots/admin-movies.webp', 'Movies Management'),
             _screenshot('/screenshots/admin-tvshows.webp', 'TV Shows'),
-            _screenshot(
-                '/screenshots/admin-live-channels.webp', 'Live Streams'),
           ]),
         ]),
       ]),

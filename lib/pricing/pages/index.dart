@@ -40,7 +40,6 @@ class PricingPage extends StatelessComponent {
                   'Community support (docs)',
                 ],
                 limitations: [
-                  'No live streams',
                   'No P2P distribution',
                   'Personal use only',
                 ],
@@ -55,7 +54,6 @@ class PricingPage extends StatelessComponent {
                 features: [
                   '5 deployment license keys',
                   'Unlimited content items',
-                  'Live streams + EPG',
                   'P2P distribution',
                   'Priority email support',
                   'Commercial use allowed',
@@ -71,6 +69,7 @@ class PricingPage extends StatelessComponent {
                 features: [
                   'Unlimited deployments',
                   'Everything in Business',
+                  'Live channels + EPG (OMNI-LIVE)',
                   'White-label APK + server',
                   'Custom branding & logo',
                   'Dedicated support',

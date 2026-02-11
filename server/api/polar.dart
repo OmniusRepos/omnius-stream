@@ -226,8 +226,9 @@ void registerPolarRoutes(DuxtServer server) {
       await user.save();
     }
 
-    // Generate license
-    final licenseKey = Licens.generateKey();
+    // Generate license — enterprise gets OMNI-LIVE key with live_channels feature
+    final licenseKey = plan == 'enterprise' ? Licens.generateLiveKey() : Licens.generateKey();
+    final webhookFeatures = Licens.planFeatures(plan).join(',');
     final license = Licens(
       license_key: licenseKey,
       user_id: user.id as int,
@@ -236,6 +237,7 @@ void registerPolarRoutes(DuxtServer server) {
       is_active: true,
       transaction_id: orderId,
       checkout_id: checkoutId,
+      features: webhookFeatures.isNotEmpty ? webhookFeatures : null,
     );
     await license.save();
 

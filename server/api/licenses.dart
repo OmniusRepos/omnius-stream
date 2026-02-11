@@ -18,6 +18,7 @@ void registerLicensRoutes(DuxtServer server) {
     int maxDeployments = 0,
     int graceDays = 30,
     String? expiresAt,
+    List<String>? features,
   }) =>
       {
         'valid': valid,
@@ -27,6 +28,7 @@ void registerLicensRoutes(DuxtServer server) {
         'max_deployments': maxDeployments,
         'grace_days': graceDays,
         'expires_at': expiresAt ?? '',
+        if (features != null && features.isNotEmpty) 'features': features,
       };
 
   // GET /api/licenses/lookup?email=xxx or ?checkout_id=xxx
@@ -230,6 +232,7 @@ void registerLicensRoutes(DuxtServer server) {
       maxDeployments: license.max_deployments ?? 1,
       graceDays: 30,
       expiresAt: license.expires_at,
+      features: license.featuresList,
     ));
   });
 
@@ -317,6 +320,7 @@ void registerLicensRoutes(DuxtServer server) {
       maxDeployments: license.max_deployments ?? 1,
       graceDays: 30,
       expiresAt: license.expires_at,
+      features: license.featuresList,
     ));
   });
 

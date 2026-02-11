@@ -194,7 +194,7 @@ class SetupPage extends StatelessComponent {
                     Span(className: 'text-green-500 mt-1', child: Text('✓')),
                     Span(className: 'text-gray-300',
                         child: Text(
-                            'The admin panel at /admin works fully - manage your movie catalog, series, live streams, and settings')),
+                            'The admin panel at /admin works fully - manage your movie catalog, series, and settings')),
                   ]),
                   Div(className: 'flex items-start gap-3', children: [
                     Span(className: 'text-red-500 mt-1', child: Text('✗')),
@@ -281,7 +281,7 @@ class SetupPage extends StatelessComponent {
                     child: Text('Add Content')),
                 P(className: 'text-gray-400',
                     child: Text(
-                        'Use the admin panel to add movies, series, and live streams to your server.')),
+                        'Use the admin panel to add movies, series, and curated lists to your server.')),
               ]),
             ]),
             Div(className: 'flex gap-4', children: [
