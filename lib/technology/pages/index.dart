@@ -42,10 +42,10 @@ class TechnologyPage extends StatelessComponent {
               'Open Standard',
             ),
             _protocolCard(
-              'IPTV / M3U',
-              'Internet Protocol Television',
-              'Import and manage content via M3U/M3U8 playlists. Full EPG (Electronic Program Guide) support with automatic schedule import and XMLTV compatibility.',
-              'Playlist Import',
+              'REST API',
+              'JSON Content API',
+              'Full REST API for client apps and third-party integrations. Manage movies, series, and collections programmatically with comprehensive JSON endpoints.',
+              'Developer Friendly',
             ),
             _protocolCard(
               'OTT',
@@ -168,7 +168,6 @@ class TechnologyPage extends StatelessComponent {
                     _formatRow('Video Codecs', 'H.264 (AVC), H.265 (HEVC), VP9, AV1'),
                     _formatRow('Audio Codecs', 'AAC, AC3, EAC3, Opus, FLAC, MP3'),
                     _formatRow('Streaming Protocols', 'HLS, DASH, Progressive HTTP, RTSP'),
-                    _formatRow('Playlist Formats', 'M3U, M3U8, XMLTV (EPG)'),
                     _formatRow('Subtitle Formats', 'SRT, VTT, SSA/ASS, TTML'),
                     _formatRow('Image Formats', 'JPEG, PNG, WebP (posters & thumbnails)'),
                   ]),

@@ -31,7 +31,7 @@ class ServerPage extends StatelessComponent {
             _featureCard('Admin Panel', 'Manage movies, series, curated lists, and user accounts from a web interface.'),
             _featureCard('REST API', 'Full JSON API for client apps. HLS, DASH, and progressive HTTP streaming.'),
             _featureCard('Embedded Database', 'SQLite — no external database required. Zero dependencies.'),
-            _featureCard('M3U Import', 'Import existing channel playlists. Works with any M3U/M3U8 source.'),
+            _featureCard('Curated Lists', 'Create custom collections with filters and sorting. Organize content for your viewers.'),
             _featureCard('Multi-User', 'Create accounts for your users with individual access and continue-watching support.'),
             _featureCard('P2P Distribution', 'Built-in peer-to-peer content distribution to reduce server bandwidth.'),
           ]),

@@ -92,7 +92,7 @@ class ComparePage extends StatelessComponent {
                     _row('MPEG-DASH', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Progressive HTTP', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('P2P Distribution', ['\u2713', '\u2717', '\u2717', '\u2717', '\u2717', '\u2717']),
-                    _row('M3U / Playlist Import', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
+                    _row('Playlist Import', ['\u2717', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Multicast', ['\u2717', '\u2713', '\u2713', '\u2717', '\u2717', '\u2717']),
                     _row('RTMP Ingest', ['\u2717', '\u2717', '\u2713', '\u2717', '\u2717', '\u2713']),
 
@@ -100,8 +100,8 @@ class ComparePage extends StatelessComponent {
                     _sectionHeader('Content Management'),
                     _row('Movie Catalog', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Series & Episodes', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
-                    _row('Live Streams', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
-                    _row('EPG / Program Guide', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
+                    _row('Live Streams', ['\u2717', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
+                    _row('EPG / Program Guide', ['\u2717', '\u2713', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Music Library', ['\u2717', '\u2717', '\u2717', '\u2713', '\u2713', '\u2717']),
                     _row('DVR / Recording', ['\u2717', '\u2717', '\u2713', '\u2713', '\u2713', '\u2717']),
                     _row('Admin Panel', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
@@ -158,7 +158,7 @@ class ComparePage extends StatelessComponent {
                       child: Text('Omnius')),
                   P(className: 'text-sm text-gray-300 leading-relaxed',
                       child: Text(
-                          'Professional streaming platform in a single Docker container. Purpose-built for streaming with dedicated client apps (Android TV, macOS), live stream management, and a full content API. One-time purchase, no subscriptions, no vendor lock-in.')),
+                          'Professional streaming platform in a single Docker container. Purpose-built for streaming with dedicated client apps (Android TV, macOS), content management, and a full content API. One-time purchase, no subscriptions, no vendor lock-in.')),
                 ]),
             Div(
                 className: 'rounded-xl bg-white/5 border border-white/10 p-6',

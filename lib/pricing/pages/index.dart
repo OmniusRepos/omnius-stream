@@ -69,7 +69,6 @@ class PricingPage extends StatelessComponent {
                 features: [
                   'Unlimited deployments',
                   'Everything in Business',
-                  'Live channels + EPG (OMNI-LIVE)',
                   'White-label APK + server',
                   'Custom branding & logo',
                   'Dedicated support',
