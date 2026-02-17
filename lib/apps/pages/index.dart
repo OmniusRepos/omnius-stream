@@ -25,7 +25,7 @@ class AppsPage extends StatelessComponent {
       _section('Smart TVs', [
         _deviceCard(name: 'Samsung TV', icon: '/icons/samsung.svg', status: 'in_review'),
         _deviceCard(name: 'LG TV', icon: '/icons/lg.svg', status: 'in_review'),
-        _deviceCard(name: 'Android TV', icon: '/icons/google_tv.svg', status: 'available'),
+        _deviceCard(name: 'Android TV', icon: '/icons/google_tv.svg', status: 'available', downloadUrl: 'https://github.com/OmniusRepos/omnius-releases/releases/download/android-tv-0.1.0/app-tv-release.apk'),
       ]),
 
       // Streaming Boxes
@@ -81,6 +81,7 @@ class AppsPage extends StatelessComponent {
     required String name,
     required String icon,
     required String status,
+    String? downloadUrl,
   }) {
     final isAvailable = status == 'available';
     final isReview = status == 'in_review';
@@ -96,7 +97,7 @@ class AppsPage extends StatelessComponent {
             ? 'text-xs px-2.5 py-1 rounded-full font-medium bg-yellow-500/20 text-yellow-400'
             : 'text-xs px-2.5 py-1 rounded-full font-medium bg-white/10 text-gray-500';
 
-    return Div(
+    final card = Div(
         className: 'app-card rounded-2xl p-8 flex flex-col items-center text-center group cursor-pointer',
         children: [
           Div(className: 'mb-5', children: [
@@ -104,6 +105,12 @@ class AppsPage extends StatelessComponent {
           ]),
           H3(className: 'text-lg font-bold text-white mb-2', child: Text(name)),
           Span(className: badgeClass, child: Text(badgeText)),
+          if (downloadUrl != null)
+            A(href: downloadUrl, attributes: {'target': '_blank', 'rel': 'noopener noreferrer'},
+              className: 'mt-4 px-5 py-2 bg-primary-500 text-white text-sm font-semibold rounded-lg hover:bg-primary-600 transition-colors',
+              child: Text('Download APK')),
         ]);
+
+    return card;
   }
 }

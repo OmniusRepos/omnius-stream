@@ -82,7 +82,7 @@ class SetupPage extends StatelessComponent {
                       '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
-                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                      '  ghcr.io/omniusrepos/omnius-server:latest'),
                   P(className: 'text-gray-400 mt-4',
                       child: Text('Data is persisted in the omnius-data volume.')),
                 ]),
@@ -100,7 +100,7 @@ class SetupPage extends StatelessComponent {
                       '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
-                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                      '  ghcr.io/omniusrepos/omnius-server:latest'),
                   P(className: 'text-gray-400 mt-4',
                       child: Text('Data is persisted in the omnius-data volume.')),
                 ]),
@@ -114,7 +114,7 @@ class SetupPage extends StatelessComponent {
                   _codeBlock(
                       'services:\n'
                       '  omnius:\n'
-                      '    image: ghcr.io/omniusrepos/omnius-releases:latest\n'
+                      '    image: ghcr.io/omniusrepos/omnius-server:latest\n'
                       '    ports:\n'
                       '      - "8080:8080"\n'
                       '    environment:\n'
@@ -351,7 +351,7 @@ class SetupPage extends StatelessComponent {
 
   Component _downloadCard(String platform, String filename, String note) {
     return A(
-        href: 'https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/$filename',
+        href: 'https://github.com/OmniusRepos/omnius-releases/releases/download/v1.1.0/$filename',
         target: Target.blank,
         className: 'block p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors',
         children: [
