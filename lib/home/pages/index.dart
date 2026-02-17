@@ -185,13 +185,13 @@ document.addEventListener('keydown', function(e) {
               child: Text('Ready to Launch Your Platform?')),
           P(className: 'text-xl text-gray-400 mb-10',
               child: Text(
-                  'One-time purchase. Full source access. Deploy in minutes.')),
+                  'Self-hosted. Full control. Deploy in minutes.')),
           Link(
             to: '/pricing',
             child: Span(
                 className:
                     'inline-block px-10 py-4 bg-primary-500 text-white font-bold rounded-lg hover:bg-primary-600 transition-colors text-lg',
-                child: Text('View Pricing \u2192')),
+                child: Text('Get Started \u2192')),
           ),
         ]),
       ]),

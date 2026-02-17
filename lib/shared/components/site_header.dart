@@ -19,10 +19,13 @@ class SiteHeader extends StatelessComponent {
             Nav(className: 'hidden md:flex items-center gap-6', children: [
               Link(to: '/features', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Features'))),
               Link(to: '/technology', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Technology'))),
-              Link(to: '/pricing', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Pricing'))),
+              Link(to: '/pricing', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Setup'))),
               Link(to: '/compare', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Compare'))),
               Link(to: '/apps', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Apps'))),
               Link(to: '/server', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Server'))),
+              A(href: 'https://github.com/OmniusRepos', attributes: {'target': '_blank', 'rel': 'noopener noreferrer'},
+                className: 'text-sm text-gray-400 hover:text-white transition-colors',
+                child: Text('GitHub')),
               // Auth link - swapped by JS based on session cookie
               Span(attributes: {'id': 'auth-link'}, children: [
                 Link(to: '/auth/login', child: Span(className: 'text-sm text-gray-400 hover:text-white transition-colors', child: Text('Login'))),

@@ -91,7 +91,7 @@ class FeaturesPage extends StatelessComponent {
               child: Span(
                   className:
                       'px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                  child: Text('Get Started')),
+                  child: Text('Setup Guide')),
             ),
             A(
               href: 'mailto:hello@omnius.stream',
@@ -130,13 +130,13 @@ class FeaturesPage extends StatelessComponent {
               child: Text('Ready to Get Started?')),
           P(className: 'text-gray-400 mb-8',
               child: Text(
-                  'One-time purchase, deploy in minutes, full control of your platform.')),
+                  'Self-hosted, deploy in minutes, full control of your platform.')),
           Link(
             to: '/pricing',
             child: Span(
                 className:
                     'inline-block px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                child: Text('View Pricing \u2192')),
+                child: Text('Get Started \u2192')),
           ),
         ]),
       ]),

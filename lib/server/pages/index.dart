@@ -147,7 +147,7 @@ class ServerPage extends StatelessComponent {
             to: '/pricing',
             child: Span(
                 className: 'px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                child: Text('View Pricing \u2192')),
+                child: Text('Get Started \u2192')),
           ),
         ]),
       ]),

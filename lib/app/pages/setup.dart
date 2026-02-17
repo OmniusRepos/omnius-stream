@@ -211,7 +211,7 @@ class SetupPage extends StatelessComponent {
                 ]),
                 P(className: 'text-sm text-gray-400',
                     child: Text(
-                        'Purchase a license at /pricing to enable the full API and client app connectivity.')),
+                        'Contact us at hello@omnius.stream to get a license key and enable the full API.')),
               ]),
         ]),
       ]),
@@ -322,16 +322,15 @@ class SetupPage extends StatelessComponent {
       Section(className: 'py-20 text-center', children: [
         Div(className: 'max-w-2xl mx-auto px-4', children: [
           H2(className: 'text-3xl font-bold text-white mb-4',
-              child: Text('Need a License?')),
+              child: Text('Need Help?')),
           P(className: 'text-gray-400 mb-8',
               child: Text(
-                  'Purchase a license to unlock the full API and enable client app connectivity.')),
-          Link(
-            to: '/pricing',
-            child: Span(
-                className:
-                    'inline-block px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                child: Text('View Pricing →')),
+                  'Contact us to get a license key or if you need help with setup.')),
+          A(
+            href: 'mailto:hello@omnius.stream',
+            className:
+                'inline-block px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
+            child: Text('Contact Us \u2192'),
           ),
         ]),
       ]),

@@ -17,12 +17,11 @@ class AppDashboardPage extends StatelessComponent {
           P(className: 'text-gray-400 text-sm mt-1',
               child: Text('Manage your Omnius license keys')),
         ]),
-        Link(
-          to: '/pricing',
-          child: Span(
-              className:
-                  'px-4 py-2 bg-primary-500 text-white text-sm font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-              child: Text('Buy Another License')),
+        A(
+          href: 'mailto:hello@omnius.stream',
+          className:
+              'px-4 py-2 bg-primary-500 text-white text-sm font-semibold rounded-lg hover:bg-primary-600 transition-colors',
+          child: Text('Request License'),
         ),
       ]),
 
@@ -48,13 +47,12 @@ class AppDashboardPage extends StatelessComponent {
                 child: Text('No Licenses Yet')),
             P(className: 'text-gray-400 mb-6',
                 child:
-                    Text('Purchase a plan to get your first license key.')),
-            Link(
-              to: '/pricing',
-              child: Span(
-                  className:
-                      'inline-block px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                  child: Text('View Pricing')),
+                    Text('Contact us to get your first license key.')),
+            A(
+              href: 'mailto:hello@omnius.stream',
+              className:
+                  'inline-block px-6 py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
+              child: Text('Request License'),
             ),
           ]),
 

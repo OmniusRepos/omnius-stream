@@ -13,7 +13,7 @@ import '../refund/pages/index.dart' as page_refundpage;
 import '../privacy/pages/index.dart' as page_privacypage;
 import '../success/pages/index.dart' as page_successpage;
 import '../compare/pages/index.dart' as page_comparepage;
-import '../pricing/pages/index.dart' as page_pricingpage;
+import '../app/pages/setup.dart' as page_pricingsetuppage;
 import '../features/pages/index.dart' as page_featurespage;
 import '../app/pages/setup.dart' as page_setuppage;
 import '../technology/pages/index.dart' as page_technologypage;
@@ -88,7 +88,7 @@ final generatedRoutes = <Route>[
   Route(
     path: '/pricing',
     builder: (context, state) {
-      return const page_pricingpage.PricingPage();
+      return const page_pricingsetuppage.SetupPage();
     },
   ),
   Route(

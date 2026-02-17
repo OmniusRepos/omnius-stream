@@ -21,7 +21,7 @@ class DashboardLayout extends StatelessComponent {
             Span(child: Text('\u{1f4cb}')), Span(child: Text('Dashboard')),
           ])),
           Link(to: '/pricing', child: Div(className: 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors', children: [
-            Span(child: Text('\u{1f4b3}')), Span(child: Text('Buy License')),
+            Span(child: Text('\u{1f4d6}')), Span(child: Text('Setup Guide')),
           ])),
           Link(to: '/app/setup', child: Div(className: 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors', children: [
             Span(child: Text('\u{1f4d6}')), Span(child: Text('Setup Guide')),
