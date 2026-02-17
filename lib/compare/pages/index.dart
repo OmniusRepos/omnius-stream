@@ -28,7 +28,7 @@ class ComparePage extends StatelessComponent {
       Section(className: 'py-12', children: [
         Div(className: 'max-w-6xl mx-auto px-4', children: [
           Div(className: 'grid md:grid-cols-3 gap-4', children: [
-            _platformCard('Omnius', 'Self-Hosted Streaming', 'From \$99',
+            _platformCard('Omnius', 'Self-Hosted Streaming', 'Free',
                 'Lightweight self-hosted streaming platform with admin panel, client apps, and full API. Deploy with Docker in minutes.',
                 true),
             _platformCard('MoreScreens', 'Enterprise Middleware', 'Contact Sales',
@@ -72,8 +72,8 @@ class ComparePage extends StatelessComponent {
                   Tbody(children: [
                     // --- Pricing ---
                     _sectionHeader('Pricing & Model'),
-                    _row('Starting Price', ['From \$99', 'Custom', 'Custom', 'Free', 'Free', 'Free']),
-                    _row('Pricing Model', ['One-time', 'Annual + services', 'Annual + services', 'Open source', 'Freemium', 'Open source']),
+                    _row('Starting Price', ['Free', 'Custom', 'Custom', 'Free', 'Free', 'Free']),
+                    _row('Pricing Model', ['Free / Self-hosted', 'Annual + services', 'Annual + services', 'Open source', 'Freemium', 'Open source']),
                     _row('Commercial Use', ['\u2713', '\u2713', '\u2713', '\u2713', '\u2713', '\u2713']),
                     _row('No Vendor Lock-in', ['\u2713', '\u2717', '\u2717', '\u2713', '\u2717', '\u2713']),
 
@@ -158,7 +158,7 @@ class ComparePage extends StatelessComponent {
                       child: Text('Omnius')),
                   P(className: 'text-sm text-gray-300 leading-relaxed',
                       child: Text(
-                          'Professional streaming platform in a single Docker container. Purpose-built for streaming with dedicated client apps (Android TV, macOS), content management, and a full content API. One-time purchase, no subscriptions, no vendor lock-in.')),
+                          'Professional streaming platform in a single Docker container. Purpose-built for streaming with dedicated client apps (Android TV, macOS), content management, and a full content API. Free, self-hosted, no vendor lock-in.')),
                 ]),
             Div(
                 className: 'rounded-xl bg-white/5 border border-white/10 p-6',
@@ -191,7 +191,7 @@ class ComparePage extends StatelessComponent {
           P(
               className: 'text-gray-400 mb-8',
               child: Text(
-                  'Professional streaming technology. One-time purchase. Deploy in minutes.')),
+                  'Professional streaming technology. Free and self-hosted. Deploy in minutes.')),
           Div(className: 'flex justify-center gap-4 flex-wrap', children: [
             Link(
               to: '/pricing',

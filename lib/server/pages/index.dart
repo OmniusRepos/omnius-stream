@@ -86,8 +86,7 @@ class ServerPage extends StatelessComponent {
                       'wget https://github.com/OmniusRepos/omnius-releases/releases/download/server-1.0.0/omnius-linux-amd64\n'
                       'chmod +x omnius-linux-amd64\n'
                       '\n'
-                      '# Run with your license key\n'
-                      'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
+                      '# Run the server\n'
                       'ADMIN_PASSWORD=your_secure_password \\\n'
                       './omnius-linux-amd64'),
                 ]),
@@ -100,10 +99,9 @@ class ServerPage extends StatelessComponent {
                       'docker run -d \\\n'
                       '  --name omnius \\\n'
                       '  -p 8080:8080 \\\n'
-                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
-                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                      '  ghcr.io/omniusrepos/omnius-server:latest'),
                 ]),
               ),
               DTabItem(
@@ -114,10 +112,9 @@ class ServerPage extends StatelessComponent {
                       'podman run -d \\\n'
                       '  --name omnius \\\n'
                       '  -p 8080:8080 \\\n'
-                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
-                      '  ghcr.io/omniusrepos/omnius-releases:latest'),
+                      '  ghcr.io/omniusrepos/omnius-server:latest'),
                 ]),
               ),
             ],
@@ -133,21 +130,21 @@ class ServerPage extends StatelessComponent {
         ]),
       ]),
 
-      // Get Your License
+      // Get Started
       Section(className: 'py-16 text-center', children: [
         Div(className: 'max-w-2xl mx-auto px-4', children: [
           H2(
               className: 'text-3xl font-bold text-white mb-4',
-              child: Text('Get Your License')),
+              child: Text('Get Started')),
           P(
               className: 'text-gray-400 mb-8',
               child: Text(
-                  'One-time purchase. No subscriptions. Includes all future updates and free client apps.')),
+                  'Free to deploy. Includes all future updates and free client apps.')),
           Link(
             to: '/pricing',
             child: Span(
                 className: 'px-8 py-3.5 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors',
-                child: Text('Get Started \u2192')),
+                child: Text('Setup Guide \u2192')),
           ),
         ]),
       ]),

@@ -63,7 +63,7 @@ class HomePage extends StatelessComponent {
               _statItem('12+', 'Core Features'),
               _statItem('60+', 'Subtitle Languages'),
               _statItem('2', 'Platforms'),
-              _statItem('\$99', 'Starting Price'),
+              _statItem('Free', 'Self-Hosted'),
             ]),
       ]),
 
@@ -123,10 +123,10 @@ class HomePage extends StatelessComponent {
                 child: Text('Up and Running in Minutes')),
           ]),
           Div(className: 'grid md:grid-cols-3 gap-8', children: [
-            _step('1', 'Get License',
-                'Purchase and receive your OMNI-XXXX-XXXX-XXXX-XXXX key.'),
-            _step('2', 'Deploy Server',
-                'Run a single Docker command with your license key.'),
+            _step('1', 'Download',
+                'Get the server binary or Docker image from GitHub.'),
+            _step('2', 'Deploy',
+                'Run a single Docker command to start your server.'),
             _step('3', 'Go Live',
                 'Configure the app to your server URL and start streaming.'),
           ]),

@@ -58,11 +58,10 @@ class SetupPage extends StatelessComponent {
                 label: 'Binary',
                 content: Div(children: [
                   P(className: 'text-gray-400 mb-4',
-                      child: Text('Make it executable and run with your license key:')),
+                      child: Text('Make it executable and run:')),
                   _codeBlock(
                       'chmod +x omnius-linux-amd64\n'
                       '\n'
-                      'LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       'ADMIN_PASSWORD=your_secure_password \\\n'
                       './omnius-linux-amd64'),
                   P(className: 'text-gray-400 mt-4',
@@ -79,7 +78,6 @@ class SetupPage extends StatelessComponent {
                       'docker run -d \\\n'
                       '  --name omnius \\\n'
                       '  -p 8080:8080 \\\n'
-                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
                       '  ghcr.io/omniusrepos/omnius-server:latest'),
@@ -97,7 +95,6 @@ class SetupPage extends StatelessComponent {
                       'podman run -d \\\n'
                       '  --name omnius \\\n'
                       '  -p 8080:8080 \\\n'
-                      '  -e LICENSE_KEY=YOUR_LICENSE_KEY \\\n'
                       '  -e ADMIN_PASSWORD=your_secure_password \\\n'
                       '  -v omnius-data:/app/data \\\n'
                       '  ghcr.io/omniusrepos/omnius-server:latest'),
@@ -118,7 +115,6 @@ class SetupPage extends StatelessComponent {
                       '    ports:\n'
                       '      - "8080:8080"\n'
                       '    environment:\n'
-                      '      - LICENSE_KEY=YOUR_LICENSE_KEY\n'
                       '      - ADMIN_PASSWORD=your_secure_password\n'
                       '    volumes:\n'
                       '      - omnius-data:/app/data\n'
@@ -164,8 +160,6 @@ class SetupPage extends StatelessComponent {
                     ]),
                   ),
                   Tbody(children: [
-                    _envRow('LICENSE_KEY', '(empty)',
-                        'Your Omnius license key. Without it, only the admin panel works - JSON APIs are disabled.'),
                     _envRow('ADMIN_PASSWORD', 'admin',
                         'Password for the admin panel at /admin'),
                     _envRow('PORT', '8080', 'HTTP port'),
@@ -177,50 +171,11 @@ class SetupPage extends StatelessComponent {
         ]),
       ]),
 
-      // Without a License
+      // Try the Demo
       Section(className: 'py-12 bg-[#141414]', children: [
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('4. Running Without a License')),
-          Div(
-              className:
-                  'rounded-xl bg-primary-500/5 border border-primary-500/20 p-6',
-              children: [
-                P(className: 'text-gray-300 mb-4',
-                    child: Text(
-                        'You can run Omnius without a LICENSE_KEY, but with limited functionality:')),
-                Div(className: 'space-y-3 mb-6', children: [
-                  Div(className: 'flex items-start gap-3', children: [
-                    Span(className: 'text-green-500 mt-1', child: Text('✓')),
-                    Span(className: 'text-gray-300',
-                        child: Text(
-                            'The admin panel at /admin works fully - manage your movie catalog, series, and settings')),
-                  ]),
-                  Div(className: 'flex items-start gap-3', children: [
-                    Span(className: 'text-red-500 mt-1', child: Text('✗')),
-                    Span(className: 'text-gray-300',
-                        child: Text(
-                            'JSON API endpoints (/api/v2/*.json) are disabled - returns 403 with error message')),
-                  ]),
-                  Div(className: 'flex items-start gap-3', children: [
-                    Span(className: 'text-red-500 mt-1', child: Text('✗')),
-                    Span(className: 'text-gray-300',
-                        child: Text(
-                            'Client apps (Android TV, macOS) cannot connect to the server')),
-                  ]),
-                ]),
-                P(className: 'text-sm text-gray-400',
-                    child: Text(
-                        'Contact us at hello@omnius.stream to get a license key and enable the full API.')),
-              ]),
-        ]),
-      ]),
-
-      // Try the Demo
-      Section(className: 'py-12', children: [
-        Div(className: 'max-w-4xl mx-auto px-4', children: [
-          H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('5. Try the Demo')),
+              child: Text('4. Try the Demo')),
           Div(
               className:
                   'rounded-xl bg-white/5 border border-white/10 p-6',
@@ -230,7 +185,7 @@ class SetupPage extends StatelessComponent {
                         'Want to explore the admin panel before deploying your own instance?')),
                 P(className: 'text-gray-400 mb-4',
                     child: Text(
-                        'We have a live demo instance running without a license key so you can see how the admin panel works:')),
+                        'We have a live demo instance so you can see how the admin panel works:')),
                 A(
                   href: 'https://demo-api.omnius.stream',
                   target: Target.blank,
@@ -241,18 +196,15 @@ class SetupPage extends StatelessComponent {
                     Span(child: Text('\u2192')),
                   ],
                 ),
-                P(className: 'text-xs text-gray-500 mt-4',
-                    child: Text(
-                        'Note: The demo runs without a license, so client apps cannot connect to it.')),
               ]),
         ]),
       ]),
 
       // After Setup
-      Section(className: 'py-12 bg-[#141414]', children: [
+      Section(className: 'py-12', children: [
         Div(className: 'max-w-4xl mx-auto px-4', children: [
           H2(className: 'text-2xl font-bold text-white mb-6',
-              child: Text('6. After Setup')),
+              child: Text('5. After Setup')),
           Div(className: 'space-y-6', children: [
             Div(className: 'flex gap-4', children: [
               Div(
@@ -297,21 +249,6 @@ class SetupPage extends StatelessComponent {
                 P(className: 'text-gray-400',
                     child: Text(
                         'Point your Android TV or macOS client apps to your server URL (e.g., http://your-server:8080).')),
-              ]),
-            ]),
-            Div(className: 'flex gap-4', children: [
-              Div(
-                  className:
-                      'flex-shrink-0 w-8 h-8 rounded-full bg-primary-500/10 flex items-center justify-center',
-                  child: Span(
-                      className: 'text-primary-500 font-bold text-sm',
-                      child: Text('4'))),
-              Div(className: 'flex-1', children: [
-                H3(className: 'text-lg font-semibold text-white mb-2',
-                    child: Text('License Validation')),
-                P(className: 'text-gray-400',
-                    child: Text(
-                        'The server validates your license every 6 hours via heartbeat. Ensure your server has internet connectivity.')),
               ]),
             ]),
           ]),
