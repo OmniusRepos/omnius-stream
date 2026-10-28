@@ -9,7 +9,8 @@ class User extends Entity {
   String? password_hash;
   bool? is_active;
   DateTime? createdAt;
-  DateTime? updatedAt;
+  // Entity.updatedAt is the ORM auto-update switch, not the stored timestamp.
+  DateTime? updatedAtTimestamp;
 
   User({
     int? id,
@@ -18,8 +19,9 @@ class User extends Entity {
     this.password_hash,
     this.is_active,
     this.createdAt,
-    this.updatedAt,
-  }) : _id = id;
+    DateTime? updatedAt,
+  }) : _id = id,
+       updatedAtTimestamp = updatedAt;
 
   @override
   dynamic get id => _id;
@@ -55,7 +57,7 @@ class User extends Entity {
         'name': name,
         'is_active': is_active,
         'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
+        'updatedAt': updatedAtTimestamp?.toIso8601String(),
       };
 
   static void register() {

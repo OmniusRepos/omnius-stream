@@ -1,0 +1,12 @@
+# The app only uses DTabs/DTabItem, whose interaction is native JavaScript.
+# duxt_ui 0.3.5's unused DSlider @client constructor cannot be serialized by
+# jaspr_builder 0.22.x (enum codecs and an onChange callback). Exclude only its
+# client metadata rather than editing generated options or downgrading packages.
+# Remove this exclusion and resolve upstream codecs before adding DSlider here.
+targets:
+  $default:
+    builders:
+      jaspr_builder:client_module:
+        generate_for:
+          exclude:
+            - lib/src/components/form/slider.dart

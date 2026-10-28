@@ -11,7 +11,8 @@ class Deployment extends Entity {
   bool? is_active;
   DateTime? last_seen_at;
   DateTime? createdAt;
-  DateTime? updatedAt;
+  // Entity.updatedAt is the ORM auto-update switch, not the stored timestamp.
+  DateTime? updatedAtTimestamp;
 
   Deployment({
     int? id,
@@ -24,8 +25,9 @@ class Deployment extends Entity {
     this.is_active,
     this.last_seen_at,
     this.createdAt,
-    this.updatedAt,
-  }) : _id = id;
+    DateTime? updatedAt,
+  }) : _id = id,
+       updatedAtTimestamp = updatedAt;
 
   @override
   dynamic get id => _id;
@@ -76,7 +78,7 @@ class Deployment extends Entity {
         'is_active': is_active,
         'last_seen_at': last_seen_at?.toIso8601String(),
         'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
+        'updatedAt': updatedAtTimestamp?.toIso8601String(),
       };
 
   static void register() {

@@ -1,7 +1,6 @@
 import 'package:duxt_html/duxt_html.dart';
 import 'package:jaspr/jaspr.dart' show StatelessComponent, BuildContext;
 import 'package:jaspr/dom.dart' show script;
-import 'package:jaspr_router/jaspr_router.dart';
 
 class AppDashboardPage extends StatelessComponent {
   const AppDashboardPage({super.key});

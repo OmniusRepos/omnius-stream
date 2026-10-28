@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:duxt/server.dart';
 import 'package:duxt_orm/duxt_orm.dart';
 import 'package:omnius_stream/models/user.dart';
@@ -7,30 +6,7 @@ import 'package:omnius_stream/models/licens.dart';
 import 'package:omnius_stream/models/order.dart';
 import 'package:omnius_stream/models/deployment.dart';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
-
-/// Lenient base64 decoder that handles unpadded input and non-zero trailing bits
-/// (which Dart's strict base64.decode rejects).
-Uint8List _base64DecodeLenient(String input) {
-  input = input.replaceAll('-', '+').replaceAll('_', '/');
-  input = input.replaceAll('=', '');
-  const chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  final bytes = <int>[];
-  var buffer = 0;
-  var bitsCollected = 0;
-  for (var i = 0; i < input.length; i++) {
-    final value = chars.indexOf(input[i]);
-    if (value < 0) continue;
-    buffer = (buffer << 6) | value;
-    bitsCollected += 6;
-    if (bitsCollected >= 8) {
-      bitsCollected -= 8;
-      bytes.add((buffer >> bitsCollected) & 0xFF);
-    }
-  }
-  return Uint8List.fromList(bytes);
-}
+import '../polar_webhook_verifier.dart';
 
 void registerPolarRoutes(DuxtServer server) {
   final users = Model<User>();
@@ -39,64 +15,34 @@ void registerPolarRoutes(DuxtServer server) {
 
   // POST /api/polar/webhook
   server.post('/api/polar/webhook', (req) async {
-    print('[Polar] Webhook received');
-    final body = req.body;
-    if (body == null) {
-      print('[Polar] Empty body');
-      return json({'error': 'Empty body'}, statusCode: 400);
+    // Authentication must use the exact bytes received, never re-encoded JSON.
+    final rawBody = req.rawBody;
+    final verification = verifyPolarWebhook(
+      secret: Platform.environment['POLAR_WEBHOOK_SECRET'] ?? '',
+      rawBody: rawBody,
+      webhookId: req.headers['webhook-id'],
+      timestamp: req.headers['webhook-timestamp'],
+      signatureHeader: req.headers['webhook-signature'],
+    );
+    if (verification == PolarWebhookVerification.notConfigured) {
+      return json({'error': 'Webhook verification is not configured'},
+          statusCode: 503);
+    }
+    if (verification != PolarWebhookVerification.verified) {
+      return json({'error': 'Invalid webhook signature'}, statusCode: 401);
     }
 
-    // Use raw body string for signature verification (not re-encoded JSON)
-    final bodyString = req.rawBody ?? jsonEncode(body);
-
-    // Verify webhook signature (Standard Webhooks spec)
-    final webhookId = req.headers['webhook-id'];
-    final webhookTimestamp = req.headers['webhook-timestamp'];
-    final webhookSignature = req.headers['webhook-signature'];
-
-    if (webhookId == null ||
-        webhookTimestamp == null ||
-        webhookSignature == null) {
-      return json({'error': 'Missing webhook signature headers'},
-          statusCode: 401);
+    // Parse the authenticated body, rather than a separately transformed object.
+    dynamic parsed;
+    try {
+      parsed = jsonDecode(rawBody!);
+    } on FormatException {
+      return json({'error': 'Invalid webhook JSON'}, statusCode: 400);
     }
-
-    final secret = Platform.environment['POLAR_WEBHOOK_SECRET'] ?? '';
-    if (secret.isNotEmpty) {
-      // Remove prefix and base64-decode the secret
-      String rawSecret = secret;
-      if (rawSecret.startsWith('whsec_')) {
-        rawSecret = rawSecret.substring(6);
-      } else if (rawSecret.startsWith('polar_whs_')) {
-        rawSecret = rawSecret.substring(10);
-      }
-      // Lenient base64 decode (handles unpadded + non-zero trailing bits)
-      final secretKey = _base64DecodeLenient(rawSecret);
-
-      // Construct signed content: {msg_id}.{timestamp}.{body}
-      final signedContent = '$webhookId.$webhookTimestamp.$bodyString';
-      final hmacDigest =
-          Hmac(sha256, secretKey).convert(utf8.encode(signedContent));
-      final expectedSignature = base64.encode(hmacDigest.bytes);
-
-      // webhook-signature header can contain multiple signatures separated by spaces
-      // Each signature is prefixed with version, e.g., "v1,base64signature"
-      final signatures = webhookSignature.split(' ');
-      final isValid = signatures.any((sig) {
-        final parts = sig.split(',');
-        if (parts.length != 2) return false;
-        return parts[1] == expectedSignature;
-      });
-
-      if (!isValid) {
-        // TODO: re-enable after updating POLAR_WEBHOOK_SECRET
-        print('[Polar] WARNING: Signature mismatch — allowing webhook through (secret may need updating)');
-        print('[Polar] Expected: $expectedSignature');
-        print('[Polar] Got: $webhookSignature');
-      }
+    if (parsed is! Map<String, dynamic>) {
+      return json({'error': 'Invalid webhook payload'}, statusCode: 400);
     }
-
-    final data = body as Map<String, dynamic>;
+    final data = parsed;
     final eventType = data['type'] as String?;
     print('[Polar] Event type: $eventType');
 
@@ -129,7 +75,7 @@ void registerPolarRoutes(DuxtServer server) {
         await dep.save();
       }
 
-      print('[Polar] Refund processed: license ${license.license_key} deactivated, ${licenseDeployments.length} deployments deactivated');
+      print('[Polar] Refund processed: license deactivated, ${licenseDeployments.length} deployments deactivated');
       return json({
         'status': 'refund_processed',
         'license_key': license.license_key,
@@ -161,7 +107,7 @@ void registerPolarRoutes(DuxtServer server) {
     final existingLicenses =
         await licenses.where('transaction_id', orderId).get();
     if (existingLicenses.isNotEmpty) {
-      print('[Polar] Already processed: ${existingLicenses.first.license_key}');
+      print('[Polar] Order already processed');
       return json({
         'status': 'already_processed',
         'license_key': existingLicenses.first.license_key,
@@ -174,7 +120,6 @@ void registerPolarRoutes(DuxtServer server) {
         (customer?['email'] as String?)?.trim().toLowerCase() ?? '';
     final customerName =
         customer?['name'] as String? ?? (email.isNotEmpty ? email.split('@').first : 'Unknown');
-    print('[Polar] Customer: $email ($customerName)');
 
     if (email.isEmpty) {
       print('[Polar] WARNING: No customer email in webhook for order $orderId');
@@ -252,7 +197,7 @@ void registerPolarRoutes(DuxtServer server) {
     );
     await order.save();
 
-    print('[Polar] License created: $licenseKey for $email (plan: $plan)');
+    print('[Polar] License created (plan: $plan)');
 
     return json({
       'status': 'success',

@@ -2,7 +2,6 @@
 .dart_tool/
 .packages
 build/
-pubspec.lock
 
 # Duxt
 .duxt/
@@ -20,6 +19,10 @@ data/
 
 # Environment
 .env
+.env.*
+!.env.sample
+!.env.example
+!.env.template
 
 # OS
 .DS_Store

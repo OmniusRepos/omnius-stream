@@ -9,6 +9,8 @@ domains:
   - omnius.stream
 volumes:
   - omnius-stream-data:/app/data
+# Non-secret defaults only. Configure POLAR_WEBHOOK_SECRET, ADMIN_SECRET, and
+# POLAR_ACCESS_TOKEN in the deployment's secure app environment, never here.
 env:
   POLAR_PERSONAL_PRODUCT_ID: "f8c77793-a640-4ddf-95b3-08c7cce637a3"
   POLAR_BUSINESS_PRODUCT_ID: "e5188e7b-a099-42b6-a3e5-691dc3fe6084"

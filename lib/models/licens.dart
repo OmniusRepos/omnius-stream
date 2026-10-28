@@ -14,7 +14,8 @@ class Licens extends Entity {
   String? features; // comma-separated feature flags (e.g. "live_channels")
   String? expires_at;
   DateTime? createdAt;
-  DateTime? updatedAt;
+  // Entity.updatedAt is the ORM auto-update switch, not the stored timestamp.
+  DateTime? updatedAtTimestamp;
 
   Licens({
     int? id,
@@ -29,8 +30,9 @@ class Licens extends Entity {
     this.features,
     this.expires_at,
     this.createdAt,
-    this.updatedAt,
-  }) : _id = id;
+    DateTime? updatedAt,
+  }) : _id = id,
+       updatedAtTimestamp = updatedAt;
 
   @override
   dynamic get id => _id;
@@ -85,7 +87,7 @@ class Licens extends Entity {
         'features': features,
         'expires_at': expires_at,
         'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
+        'updatedAt': updatedAtTimestamp?.toIso8601String(),
       };
 
   static void register() {

@@ -1,7 +1,6 @@
 import 'package:duxt_html/duxt_html.dart';
 import 'package:duxt_ui/duxt_ui.dart';
 import 'package:jaspr/jaspr.dart' show StatelessComponent, BuildContext;
-import 'package:jaspr_router/jaspr_router.dart';
 
 class SetupPage extends StatelessComponent {
   const SetupPage({super.key});

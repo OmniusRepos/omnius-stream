@@ -9,7 +9,8 @@ class Order extends Entity {
   String? currency;
   String? status;
   DateTime? createdAt;
-  DateTime? updatedAt;
+  // Entity.updatedAt is the ORM auto-update switch, not the stored timestamp.
+  DateTime? updatedAtTimestamp;
 
   Order({
     int? id,
@@ -20,8 +21,9 @@ class Order extends Entity {
     this.currency,
     this.status,
     this.createdAt,
-    this.updatedAt,
-  }) : _id = id;
+    DateTime? updatedAt,
+  }) : _id = id,
+       updatedAtTimestamp = updatedAt;
 
   @override
   dynamic get id => _id;
@@ -64,7 +66,7 @@ class Order extends Entity {
         'currency': currency,
         'status': status,
         'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
+        'updatedAt': updatedAtTimestamp?.toIso8601String(),
       };
 
   static void register() {
